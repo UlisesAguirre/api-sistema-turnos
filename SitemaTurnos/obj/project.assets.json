@@ -224,19 +224,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\josed\\.nuget\\packages\\": {}
+    "C:\\Users\\Ulise\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\josed\\source\\repos\\programacion-3\\TPI\\SitemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj",
+      "projectUniqueName": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj",
       "projectName": "SitemaTurnos",
-      "projectPath": "C:\\Users\\josed\\source\\repos\\programacion-3\\TPI\\SitemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj",
-      "packagesPath": "C:\\Users\\josed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\josed\\source\\repos\\programacion-3\\TPI\\SitemaTurnos\\SitemaTurnos\\obj\\",
+      "projectPath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj",
+      "packagesPath": "C:\\Users\\Ulise\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\josed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ulise\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

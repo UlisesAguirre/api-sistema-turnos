@@ -1,18 +1,18 @@
 ﻿namespace RestaurantReservations.Models
 {
-    public class User
+    public class UserDto
     {
-//        Usuario {
-//    Id
-//    nombre de Usuario
-//    email
-//    contraseña
-
-//}
-    public string Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }   
         public string Email { get; set; }
         public string Password { get; set; }
 
     }
 }
+
+/*Usuario {
+    Id
+    nombre de Usuario
+    email
+    contraseña
+}*/
