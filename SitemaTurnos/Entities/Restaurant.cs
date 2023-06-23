@@ -12,6 +12,6 @@
         public bool Disponibility { get; set; }
 
 
-        public ICollection<Table> tablesReserved { get; set; } = new List<Table>();
+        public ICollection<TableRestaurant> tablesReserved { get; set; } = new List<TableRestaurant>();
     }
 }

@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SitemaTurnos", "SitemaTurnos\SitemaTurnos.csproj", "{453BDA4F-9945-48AB-B41A-3EFF1A455F8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnos", "SitemaTurnos\SistemaTurnos.csproj", "{453BDA4F-9945-48AB-B41A-3EFF1A455F8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{7B6FAF44-6CDF-41C3-8B28-EC4A85AD1CE5}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

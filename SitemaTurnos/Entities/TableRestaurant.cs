@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SitemaTurnos.Entities
 {
-    public class Table
+    public class TableRestaurant
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int Capacity { get; } = 4;
+        public int Capacity { get; set; }
         public Disponibility Disponibility { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();

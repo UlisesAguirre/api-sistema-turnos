@@ -3,6 +3,7 @@
     public enum Disponibility
     {
         Disponible,
-        Reservado
+        Reservado,
+        Cancelado
     }
 }
