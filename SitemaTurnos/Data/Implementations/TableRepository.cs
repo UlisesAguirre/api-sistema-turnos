@@ -9,12 +9,32 @@ namespace SistemaTurnos.Data.Implementations
     {
 
         static List<TableRestaurant> tables = new List<TableRestaurant>
-            {
-                new TableRestaurant { Id = 1, Capacity = 4, Disponibility = Disponibility.Disponible },
-                new TableRestaurant { Id = 2, Capacity = 3, Disponibility = Disponibility.Cancelado },
-                new TableRestaurant { Id = 3, Capacity = 2, Disponibility = Disponibility.Reservado },
-                new TableRestaurant { Id = 4, Capacity = 1, Disponibility = Disponibility.Cancelado },
-            };
+        {
+                new TableRestaurant
+                {
+                    Id = 1,
+                    Capacity = 4,
+                    Disponibility = Disponibility.Disponible
+                },
+                new TableRestaurant
+                {
+                    Id = 2,
+                    Capacity = 3,
+                    Disponibility = Disponibility.Cancelado
+                },
+                new TableRestaurant
+                {
+                    Id = 3,
+                    Capacity = 2,
+                    Disponibility = Disponibility.Reservado
+                },
+                new TableRestaurant
+                {
+                    Id = 4,
+                    Capacity = 1,
+                    Disponibility = Disponibility.Cancelado
+                }
+        };
 
         public List<TableRestaurant> GetAll()
         {

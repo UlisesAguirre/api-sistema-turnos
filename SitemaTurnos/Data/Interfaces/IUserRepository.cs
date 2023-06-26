@@ -9,5 +9,6 @@ namespace SitemaTurnos.Data.Interfaces
         void AddUser(User user);
         User UpdateUser(User user);
         User DeleteUser(int userId);
+        User? ValidateUser(string email, string password);
     }
 }

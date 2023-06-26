@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.Services.Interfaces;
 using SitemaTurnos.Entities;
 
 namespace SistemaTurnos.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class TableController : ControllerBase
     {

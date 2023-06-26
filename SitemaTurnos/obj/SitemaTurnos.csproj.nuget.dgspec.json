@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj": {}
+    "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\api-sistema-turnos\\SitemaTurnos\\SitemaTurnos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj": {
+    "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\api-sistema-turnos\\SitemaTurnos\\SitemaTurnos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj",
+        "projectUniqueName": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\api-sistema-turnos\\SitemaTurnos\\SitemaTurnos.csproj",
         "projectName": "SitemaTurnos",
-        "projectPath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\SitemaTurnos.csproj",
+        "projectPath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\api-sistema-turnos\\SitemaTurnos\\SitemaTurnos.csproj",
         "packagesPath": "C:\\Users\\Ulise\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\SistemaTurnos\\SitemaTurnos\\obj\\",
+        "outputPath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\api-sistema-turnos\\SitemaTurnos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ulise\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -42,21 +42,29 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.7, )"
+              "version": "[7.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[7.0.7, )"
+              "version": "[7.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.7, )"
+              "version": "[7.0.8, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.31.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.2.3, )"
+              "version": "[6.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.31.0, )"
             }
           },
           "imports": [

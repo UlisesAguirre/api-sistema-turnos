@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Enums;
 

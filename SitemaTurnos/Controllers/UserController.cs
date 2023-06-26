@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Services.Interfaces;
@@ -6,6 +7,7 @@ using SitemaTurnos.Services.Interfaces;
 namespace SitemaTurnos.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {

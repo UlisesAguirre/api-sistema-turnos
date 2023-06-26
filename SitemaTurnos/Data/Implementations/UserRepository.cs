@@ -8,14 +8,55 @@ namespace SitemaTurnos.Data.Implementations
     public class UserRepository : IUserRepository
     {
         //Usuarios hardcodeados:
-         static List<User> users = new List<User>
+        static List<User> users = new List<User>
+        {
+            new User
             {
-                new User { Id = 1, Name = "John", LastName = "Doe", Email = "john.doe@example.com", UserType = "Admin" },
-                new User { Id = 2, Name = "Emma", LastName = "Smith", Email = "emma.smith@example.com", UserType = "Client" },
-                new User { Id = 3, Name = "Michael", LastName = "Johnson", Email = "michael.johnson@example.com", UserType = "Client" },
-                new User { Id = 4, Name = "Sophia", LastName = "Brown", Email = "sophia.brown@example.com", UserType = "Admin" },
-                new User { Id = 5, Name = "Robert", LastName = "Lee", Email = "robert.lee@example.com", UserType = "Manager" }
-            };
+                Id = 1,
+                Name = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                UserType = "Admin",
+                Password = "password1"
+            },
+            new User
+            {
+                Id = 2,
+                Name = "Emma",
+                LastName = "Smith",
+                Email = "emma.smith@example.com",
+                UserType = "Client",
+                Password = "password2"
+            },
+            new User
+            {
+                Id = 3,
+                Name = "Michael",
+                LastName = "Johnson",
+                Email = "michael.johnson@example.com",
+                UserType = "Client",
+                Password = "password3"
+            },
+            new User
+            {
+                Id = 4,
+                Name = "Sophia",
+                LastName = "Brown",
+                Email = "sophia.brown@example.com",
+                UserType = "Admin",
+                Password = "password4"
+            },
+            new User
+            {
+                Id = 5,
+                Name = "Robert",
+                LastName = "Lee",
+                Email = "robert.lee@example.com",
+                UserType = "Manager",
+                Password = "password5"
+            }
+        };
+
 
         readonly UserDbContext _dbContext;
 
@@ -67,6 +108,11 @@ namespace SitemaTurnos.Data.Implementations
             }
 
             return usuarioABorrar;
+        }
+
+        public User? ValidateUser(string email, string password)
+        {
+            return users.FirstOrDefault(u => u.Email == email && u.Password == password);
         }
     }
 }

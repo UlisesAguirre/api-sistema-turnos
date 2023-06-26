@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Services.Implementations;
@@ -7,6 +8,7 @@ using SitemaTurnos.Services.Interfaces;
 namespace SitemaTurnos.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ReservationController : ControllerBase
     {

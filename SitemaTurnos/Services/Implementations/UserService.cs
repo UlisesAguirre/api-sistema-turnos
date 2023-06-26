@@ -46,5 +46,10 @@ namespace SitemaTurnos.Services.Implementations
             User usuarioABorrar = _userRepository.DeleteUser(userId);
             return usuarioABorrar;
         }
+
+        public User ValidateUser(string email, string password)
+        {
+            return _userRepository.ValidateUser(email, password); 
+        }
     }
 }
