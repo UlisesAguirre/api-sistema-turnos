@@ -60,7 +60,7 @@ namespace SitemaTurnos.Controllers
 
             if (usuario == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             return Ok();
         }

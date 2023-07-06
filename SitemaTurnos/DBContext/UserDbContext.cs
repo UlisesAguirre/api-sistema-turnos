@@ -129,6 +129,34 @@ namespace SitemaTurnos.DBContext
                 }
             );
 
+            //modelBuilder.Entity<Reservation>()
+            //    .HasMany(x => x.Users)
+            //    .WithMany(x => x.ReservationsDone)
+            //    .UsingEntity(j => j
+            //        .ToTable("UsersReservations")
+            //        .HasData(new[]
+            //            {
+            //                new { UsersId = 1, ReservationsDoneId = 1},
+            //                new { UsersId = 1, ReservationsDoneId = 2},
+            //                new { UsersId = 4, ReservationsDoneId = 3},
+
+            //            }
+            //        ));
+
+            //modelBuilder.Entity<Reservation>()
+            //    .HasMany(x => x.TablesRestaurant)
+            //    .WithMany(x => x.ReservationsAssigned)
+            //    .UsingEntity(j => j
+            //        .ToTable("TablesReservation")
+            //        .HasData(new[]
+            //            {
+            //                new { TablesRestaurantId = 1, ReservationsAssignedId = 1},
+            //                new { TablesRestaurantId = 1, ReservationsAssignedId = 2},
+            //                new { TablesRestaurantId = 2, ReservationsAssignedId = 3},
+
+            //            }
+            //        ));
+
             base.OnModelCreating(modelBuilder);
         }
 

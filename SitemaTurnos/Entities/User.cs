@@ -14,5 +14,7 @@ namespace SitemaTurnos.Entities
         public string Email { get; set; }
         [Required]
         public string UserType { get; set; }
+        //public ICollection<Reservation> ReservationsDone { get; set; } = new List<Reservation>();
+
     }
 }

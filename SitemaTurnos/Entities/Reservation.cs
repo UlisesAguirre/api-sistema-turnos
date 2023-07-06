@@ -18,5 +18,8 @@ namespace SitemaTurnos.Entities
         public int IdClient { get; set; }
 
         //Tengo que agregar alguna lista?
+        //public ICollection<User> Users { get; set; } = new List<User>();
+        //public ICollection<TableRestaurant> TablesRestaurant { get; set; } = new List<TableRestaurant>();
+
     }
 }

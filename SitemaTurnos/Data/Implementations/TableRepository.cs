@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.Data.Interfaces;
+using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Enums;
 
@@ -7,70 +8,54 @@ namespace SistemaTurnos.Data.Implementations
 {
     public class TableRepository : ITableRepository
     {
+        readonly UserDbContext _dbContext;
 
-        static List<TableRestaurant> tables = new List<TableRestaurant>
+        public TableRepository(UserDbContext dbContext)
         {
-                new TableRestaurant
-                {
-                    Id = 1,
-                    Capacity = 4,
-                    Disponibility = Disponibility.Disponible
-                },
-                new TableRestaurant
-                {
-                    Id = 2,
-                    Capacity = 3,
-                    Disponibility = Disponibility.Cancelado
-                },
-                new TableRestaurant
-                {
-                    Id = 3,
-                    Capacity = 2,
-                    Disponibility = Disponibility.Reservado
-                },
-                new TableRestaurant
-                {
-                    Id = 4,
-                    Capacity = 1,
-                    Disponibility = Disponibility.Cancelado
-                }
-        };
+            _dbContext = dbContext;
+        }
 
         public List<TableRestaurant> GetAll()
         {
-            List<TableRestaurant> mesas = tables.ToList();
+            List<TableRestaurant> mesas = _dbContext.TablesRestaurant.ToList();
             return mesas;
         }
 
         public TableRestaurant GetById(int tableId)
         {
-            TableRestaurant mesa = tables.Find(t => t.Id == tableId);
+            TableRestaurant mesa = _dbContext.TablesRestaurant.Find(tableId);
             return mesa;
         }
 
         public void AddTable(TableRestaurant table)
         {
-            tables.Add(table);
+            _dbContext.TablesRestaurant.Add(table);
+
+            _dbContext.SaveChanges();
         }
 
         public TableRestaurant UpdateTable(TableRestaurant table)
         {
-            TableRestaurant mesaExistente = tables.FirstOrDefault(t => t.Id == table.Id);
+            TableRestaurant mesaExistente = _dbContext.TablesRestaurant.FirstOrDefault(t => t.Id == table.Id);
 
             if (mesaExistente != null)
             {
                 mesaExistente.Capacity = table.Capacity;
                 mesaExistente.Disponibility = table.Disponibility;
+
+                _dbContext.SaveChanges();
             }
                 return mesaExistente;
         }
 
         public TableRestaurant DeleteTable(int tableId)
         {
-            TableRestaurant mesaABorrar = tables.FirstOrDefault(t => t.Id == tableId);
+            TableRestaurant mesaABorrar = _dbContext.TablesRestaurant.FirstOrDefault(t => t.Id == tableId);
             if (mesaABorrar != null)
             {
-                tables.Remove(mesaABorrar);
+                _dbContext.TablesRestaurant.Remove(mesaABorrar);
+
+                _dbContext.SaveChanges();
             }
             return mesaABorrar;
         }

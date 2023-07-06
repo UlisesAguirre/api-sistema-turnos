@@ -7,56 +7,6 @@ namespace SitemaTurnos.Data.Implementations
 {
     public class UserRepository : IUserRepository
     {
-        //Usuarios hardcodeados:
-        static List<User> users = new List<User>
-        {
-            new User
-            {
-                Id = 1,
-                Name = "John",
-                LastName = "Doe",
-                Email = "john.doe@example.com",
-                UserType = "Admin",
-                Password = "password1"
-            },
-            new User
-            {
-                Id = 2,
-                Name = "Emma",
-                LastName = "Smith",
-                Email = "emma.smith@example.com",
-                UserType = "Client",
-                Password = "password2"
-            },
-            new User
-            {
-                Id = 3,
-                Name = "Michael",
-                LastName = "Johnson",
-                Email = "michael.johnson@example.com",
-                UserType = "Client",
-                Password = "password3"
-            },
-            new User
-            {
-                Id = 4,
-                Name = "Sophia",
-                LastName = "Brown",
-                Email = "sophia.brown@example.com",
-                UserType = "Admin",
-                Password = "password4"
-            },
-            new User
-            {
-                Id = 5,
-                Name = "Robert",
-                LastName = "Lee",
-                Email = "robert.lee@example.com",
-                UserType = "Manager",
-                Password = "password5"
-            }
-        };
-
 
         readonly UserDbContext _dbContext;
 
@@ -67,27 +17,24 @@ namespace SitemaTurnos.Data.Implementations
         public List<User> GetAll()
         {
             List<User> usuarios = _dbContext.Users.ToList();
-            //List<User> usuarios = users.ToList();
             return usuarios;
         }
 
         public User GetById(int userId)
         {
-            //User usuario = _dbContext.Users.Find(userId);
-            User usuario = users.Find(q => q.Id == userId);
+            User usuario = _dbContext.Users.Find(userId);
             return usuario;
         }
 
         public void AddUser(User user)
         {
-            //_dbContext.users.Add(user);
-            //_dbContext.SaveChanges();
-            users.Add(user);
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
         }
 
         public User UpdateUser(User user)
         {
-            User usuarioExistente = users.FirstOrDefault(u => u.Id == user.Id);
+            User usuarioExistente = _dbContext.Users.FirstOrDefault(u => u.Id == user.Id);
 
             if (usuarioExistente != null)
             {
@@ -95,24 +42,31 @@ namespace SitemaTurnos.Data.Implementations
                 usuarioExistente.LastName = user.LastName;
                 usuarioExistente.Email = user.Email;
                 usuarioExistente.UserType = user.UserType;
+
+                _dbContext.SaveChanges();
             }
             return usuarioExistente;
         }
 
         public User DeleteUser(int userId)
         {
-            User usuarioABorrar = users.FirstOrDefault(u => u.Id == userId);
+            User usuarioABorrar = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
             if (usuarioABorrar != null)
             {
-                users.Remove(usuarioABorrar);
+                _dbContext.Users.Remove(usuarioABorrar);
+
+
+                _dbContext.SaveChanges();
             }
 
             return usuarioABorrar;
         }
+        
 
+        //Authentication <-------
         public User? ValidateUser(string email, string password)
         {
-            return users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            return _dbContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
         }
     }
 }
