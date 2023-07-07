@@ -8,6 +8,7 @@ namespace SitemaTurnos.Data.Interfaces
         User GetById(int userId);
         void AddUser(User user);
         User UpdateUser(User user);
+        User UpdateClient(int id, User user);
         User DeleteUser(int userId);
         User? ValidateUser(string email, string password);
     }

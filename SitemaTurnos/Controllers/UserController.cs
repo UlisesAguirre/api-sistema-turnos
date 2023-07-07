@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Services.Interfaces;
+using System.Security.Claims;
 
 namespace SitemaTurnos.Controllers
 {
@@ -13,7 +14,6 @@ namespace SitemaTurnos.Controllers
     {
         private readonly IUserService _userService;
 
-
         public UserController(IUserService userService) //implementacion 
         {
             _userService = userService;
@@ -22,6 +22,11 @@ namespace SitemaTurnos.Controllers
         [HttpGet("GetUsers")]
         public ActionResult<List<User>> GetUsers()
         {
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            if (userRole != "Admin")
+                return Forbid();
+
             List<User> usuarios = _userService.GetUsers();
 
             if (usuarios == null)
@@ -34,13 +39,27 @@ namespace SitemaTurnos.Controllers
         [HttpGet("{userId}", Name = "get")]
         public ActionResult<User> Get(int userId)
         {
-            User usuario = _userService.Get(userId);
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            if (usuario == null)
+            if (userRole != "Admin")
+            {
+                User usuario = _userService.Get(int.Parse(user));
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return Ok(usuario);
+            }
+
+            User adminUsuario = _userService.Get(userId);
+
+            if (adminUsuario == null)
             {
                 return NotFound();
             }
-            return Ok(usuario);
+            return Ok(adminUsuario);
         }
 
         [HttpPost("post")]
@@ -54,26 +73,57 @@ namespace SitemaTurnos.Controllers
 
 
         [HttpPut("Put")]
-        public ActionResult<User> Put([FromBody] User user)
+        public ActionResult<User> Put([FromBody] User userModified)
         {
-            User usuario = _userService.Put(user);
 
-            if (usuario == null)
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (userRole != "Admin")
+            {
+                User usuario = _userService.PutClient(int.Parse(user), userModified);
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return Ok(usuario);
+            }
+
+            User adminUsuario = _userService.Put(userModified);
+
+            if (adminUsuario == null)
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(adminUsuario);
         }
 
         [HttpDelete("{userId}", Name = "DeleteUser")]
-        public ActionResult<User> Delete(int userId) //Por que tipo <User> y no tipo <Int>
+        public ActionResult<User> Delete(int userId)
         {
-            User usuarioABorrar = _userService.Delete(userId);
-            if (usuarioABorrar == null)
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (userRole != "Admin")
+            {
+                User usuario = _userService.Delete(int.Parse(user));
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return Ok(usuario);
+            }
+
+            User adminUsuario = _userService.Delete(userId);
+
+            if (adminUsuario == null)
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(adminUsuario);
+            
         }
 
         //CONSULTAR: que tantos endpoints con respecto a las reservaciones deberian ir aca?

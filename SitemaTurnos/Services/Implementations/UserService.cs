@@ -41,6 +41,12 @@ namespace SitemaTurnos.Services.Implementations
             return usuario;
         }
 
+        public User PutClient(int id, User user)
+        {
+            User usuario = _userRepository.UpdateClient(id, user);
+            return usuario;
+        }
+
         public User Delete(int userId)
         {
             User usuarioABorrar = _userRepository.DeleteUser(userId);
@@ -49,6 +55,9 @@ namespace SitemaTurnos.Services.Implementations
 
         public User ValidateUser(string email, string password)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return null;
+
             return _userRepository.ValidateUser(email, password); 
         }
     }

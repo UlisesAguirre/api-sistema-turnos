@@ -8,6 +8,7 @@ namespace SitemaTurnos.Services.Interfaces
         User Get(int userId);
         void Post(User user);
         User Put(User user);
+        User PutClient(int id, User user);
         User Delete(int userId);
 
         User ValidateUser(string email, string password);

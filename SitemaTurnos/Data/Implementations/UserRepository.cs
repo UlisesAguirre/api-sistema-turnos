@@ -48,6 +48,22 @@ namespace SitemaTurnos.Data.Implementations
             return usuarioExistente;
         }
 
+        public User UpdateClient(int id , User user)
+        {
+            User usuarioExistente = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+
+            if (usuarioExistente != null)
+            {
+                usuarioExistente.Name = user.Name;
+                usuarioExistente.LastName = user.LastName;
+                usuarioExistente.Email = user.Email;
+                usuarioExistente.UserType = user.UserType;
+
+                _dbContext.SaveChanges();
+            }
+            return usuarioExistente;
+        }
+
         public User DeleteUser(int userId)
         {
             User usuarioABorrar = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
