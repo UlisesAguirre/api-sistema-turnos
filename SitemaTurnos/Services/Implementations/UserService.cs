@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using RestaurantReservations.Models;
 using SitemaTurnos.Data.Implementations;
 using SitemaTurnos.Data.Interfaces;
 using SitemaTurnos.Entities;
@@ -10,47 +12,44 @@ namespace SitemaTurnos.Services.Implementations
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public List<User> GetUsers()
+        public List<UserDto> GetUsers()
         {
             List<User> usuarios = _userRepository.GetAll();
-            return usuarios;
+            return _mapper.Map<List<UserDto>>(usuarios);
         }
 
-        public User Get(int userId)
+        public UserDto Get(int userId)
         {
-            User usuario = _userRepository.GetById(userId);
-            return usuario;
+            var usuario = _userRepository.GetById(userId);
+            return _mapper.Map<UserDto>(usuario);
         }
 
 
-        public void Post(User user)
+        public void Post(UserDto user)
         {
-            _userRepository.AddUser(user);
+            User usuario = _mapper.Map<User>(user);
+            _userRepository.AddUser(usuario);
         }
 
 
-        public User Put(User user)
+        public UserDto Put(UserDto user)
         {
-            User usuario = _userRepository.UpdateUser(user);
-            return usuario;
+            User usuario = _mapper.Map<User>(user);
+            User usuariomodified = _userRepository.UpdateUser(usuario);
+            return _mapper.Map<UserDto>(usuariomodified);
         }
-
-        public User PutClient(int id, User user)
-        {
-            User usuario = _userRepository.UpdateClient(id, user);
-            return usuario;
-        }
-
-        public User Delete(int userId)
+        public UserDto Delete(int userId)
         {
             User usuarioABorrar = _userRepository.DeleteUser(userId);
-            return usuarioABorrar;
+            return _mapper.Map<UserDto>(usuarioABorrar);
         }
 
         public User ValidateUser(string email, string password)

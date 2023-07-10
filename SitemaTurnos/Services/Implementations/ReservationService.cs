@@ -1,4 +1,6 @@
-﻿using SitemaTurnos.Data.Implementations;
+﻿using AutoMapper;
+using RestaurantReservations.Models;
+using SitemaTurnos.Data.Implementations;
 using SitemaTurnos.Data.Interfaces;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Services.Interfaces;
@@ -8,39 +10,43 @@ namespace SitemaTurnos.Services.Implementations
     public class ReservationService : IReservationService
     {
         private readonly IReservationRepository _reservationRepository;
-        public ReservationService(IReservationRepository reservationRepository) 
+        private readonly IMapper _mapper;
+        public ReservationService(IReservationRepository reservationRepository, IMapper mapper) 
         {
             _reservationRepository = reservationRepository;
+            _mapper = mapper;
         }
 
-        public List<Reservation> GetAllReservations()
+        public List<ReservationDto> GetAllReservations()
         {
             List<Reservation> reservations = _reservationRepository.GetAllReservations();
-            return reservations;
+            return _mapper.Map<List<ReservationDto>>(reservations);
         }
 
-        public Reservation GetReservations(int idReservation)
+        public ReservationDto GetReservations(int idReservation)
         {
             Reservation reservation = _reservationRepository.GetReservationById(idReservation);
-            return reservation;
+            return _mapper.Map<ReservationDto>(reservation);
         }
 
-        public void Post(Reservation reservation)
+        public void Post(ReservationDto reservation)
         {
-            _reservationRepository.AddReservation(reservation);
+            Reservation newReservation = _mapper.Map<Reservation>(reservation);
+            _reservationRepository.AddReservation(newReservation);
         }
 
-
-        public Reservation Put(Reservation reservation)
+        public ReservationDto Put(ReservationDto reservation)
         {
-            Reservation reserva = _reservationRepository.UpdateReservation(reservation);
-            return reserva;
+            Reservation reserva = _mapper.Map<Reservation>(reservation);
+            Reservation reservationModified = _reservationRepository.UpdateReservation(reserva);
+
+            return _mapper.Map<ReservationDto>(reservationModified);
         }
 
-        public Reservation Delete(int reservationId)
+        public ReservationDto Delete(int reservationId)
         {
-            Reservation reservaABorrar = _reservationRepository.DeleteReservation(reservationId);
-            return reservaABorrar;
+            Reservation reservationDeleted = _reservationRepository.DeleteReservation(reservationId);
+            return _mapper.Map<ReservationDto>(reservationDeleted);
         }
     }
 }

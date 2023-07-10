@@ -12,7 +12,7 @@ namespace SitemaTurnos.Entities
         public int Capacity { get; set; }
         public Disponibility Disponibility { get; set; }
 
-        //public ICollection<Reservation> ReservationsAssigned { get; set; } = new List<Reservation>();
+        public ICollection<Reservation> ReservationsAssigned { get; set; } = new List<Reservation>();
 
     }
 }

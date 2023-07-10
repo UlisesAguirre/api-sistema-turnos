@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantReservations.Models;
 using SistemaTurnos.Services.Interfaces;
 using SitemaTurnos.Entities;
+using System.Security.Claims;
 
 namespace SistemaTurnos.Controllers
 {
@@ -18,33 +20,39 @@ namespace SistemaTurnos.Controllers
         }
 
         [HttpGet("GetTables")]
-        public ActionResult<List<TableRestaurant>> GetTables()
+        public ActionResult<List<TableDto>> GetTables()
         {
-            List<TableRestaurant> mesas = _tableService.GetTables();
+            List<TableDto> tables = _tableService.GetTables();
 
-            if (mesas == null)
+            if (tables == null)
             {
                 return NotFound();
             }
-            return Ok(mesas);
+            return Ok(tables);
         }
 
         [HttpGet("{tableId}", Name = "getTable")]
-        public ActionResult<TableRestaurant> GetTable(int tableId)
+        public ActionResult<TableDto> GetTable(int tableId)
         {
-            TableRestaurant mesa = _tableService.Get(tableId);
+            TableDto table = _tableService.Get(tableId);
 
-            if (mesa == null)
+            if (table == null)
             {
                 return NotFound();
             }
-            return Ok(mesa);
+            return Ok(table);
         }
 
         [HttpPost("post")]
 
-        public ActionResult<TableRestaurant> Post([FromBody] TableRestaurant table)
+        public ActionResult<TableDto> Post([FromBody] TableDto table)
         {
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (userRole != "Admin")
+                return Forbid();
+
             _tableService.Post(table);
             return Ok();
         }
@@ -52,11 +60,17 @@ namespace SistemaTurnos.Controllers
 
 
         [HttpPut("Put")]
-        public ActionResult<TableRestaurant> Put([FromBody] TableRestaurant table)
+        public ActionResult<TableDto> Put([FromBody] TableDto table)
         {
-            TableRestaurant mesa = _tableService.Put(table);
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            if (mesa == null)
+            if (userRole != "Admin")
+                return Forbid();
+
+            TableDto tableModified = _tableService.Put(table);
+
+            if (tableModified == null)
             {
                 return BadRequest();
             }
@@ -64,10 +78,16 @@ namespace SistemaTurnos.Controllers
         }
 
         [HttpDelete("{tableId}", Name = "DeleteTable")]
-        public ActionResult<TableRestaurant> Delete(int tableId) 
+        public ActionResult<TableDto> Delete(int tableId) 
         {
-            TableRestaurant mesaABorrar = _tableService.Delete(tableId);
-            if (mesaABorrar == null)
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (userRole != "Admin")
+                return Forbid();
+
+            TableDto table = _tableService.Delete(tableId);
+            if (table == null)
             {
                 return NotFound();
             }

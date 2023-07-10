@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantReservations.Models;
 using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Services.Interfaces;
@@ -12,7 +13,7 @@ namespace SitemaTurnos.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IUserService _userService; 
 
         public UserController(IUserService userService) //implementacion 
         {
@@ -20,14 +21,14 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpGet("GetUsers")]
-        public ActionResult<List<User>> GetUsers()
+        public ActionResult<List<UserDto>> GetUsers()
         {
             var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
             if (userRole != "Admin")
                 return Forbid();
 
-            List<User> usuarios = _userService.GetUsers();
+            List<UserDto> usuarios = _userService.GetUsers();
 
             if (usuarios == null)
             {
@@ -37,14 +38,14 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpGet("{userId}", Name = "get")]
-        public ActionResult<User> Get(int userId)
+        public ActionResult<UserDto> Get(int userId)
         {
-            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
             if (userRole != "Admin")
             {
-                User usuario = _userService.Get(int.Parse(user));
+                UserDto usuario = _userService.Get(Int32.Parse(user));
 
                 if (usuario == null)
                 {
@@ -53,7 +54,7 @@ namespace SitemaTurnos.Controllers
                 return Ok(usuario);
             }
 
-            User adminUsuario = _userService.Get(userId);
+            UserDto adminUsuario = _userService.Get(userId);
 
             if (adminUsuario == null)
             {
@@ -64,7 +65,7 @@ namespace SitemaTurnos.Controllers
 
         [HttpPost("post")]
 
-        public ActionResult<User> Post([FromBody] User user)
+        public ActionResult<UserDto> Post([FromBody] UserDto user)
         {
             _userService.Post(user);
             return Ok();
@@ -73,66 +74,59 @@ namespace SitemaTurnos.Controllers
 
 
         [HttpPut("Put")]
-        public ActionResult<User> Put([FromBody] User userModified)
+        public ActionResult<UserDto> Put([FromBody] UserDto userModified)
         {
 
-            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
             if (userRole != "Admin")
             {
-                User usuario = _userService.PutClient(int.Parse(user), userModified);
+                userModified.Id = Int32.Parse(userId);
+                UserDto usuario = _userService.Put(userModified);
 
                 if (usuario == null)
                 {
                     return NotFound();
                 }
-                return Ok(usuario);
+                return Ok();
             }
 
-            User adminUsuario = _userService.Put(userModified);
+            UserDto adminUsuario = _userService.Put(userModified);
 
             if (adminUsuario == null)
             {
                 return NotFound();
             }
-            return Ok(adminUsuario);
+            return Ok();
         }
 
         [HttpDelete("{userId}", Name = "DeleteUser")]
-        public ActionResult<User> Delete(int userId)
+        public ActionResult<UserDto> Delete(int userId)
         {
-            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
             if (userRole != "Admin")
             {
-                User usuario = _userService.Delete(int.Parse(user));
+                UserDto usuario = _userService.Delete(Int32.Parse(user));
 
                 if (usuario == null)
                 {
                     return NotFound();
                 }
-                return Ok(usuario);
+                return Ok();
             }
 
-            User adminUsuario = _userService.Delete(userId);
+            UserDto adminUsuario = _userService.Delete(userId);
 
             if (adminUsuario == null)
             {
                 return NotFound();
             }
-            return Ok(adminUsuario);
+            return Ok();
             
         }
 
-        //CONSULTAR: que tantos endpoints con respecto a las reservaciones deberian ir aca?
-        //Teniendo en cuenta que el usuario puede ver sus reservas, crearlas, modificarlas y eliminarlas.
-        
-        //[HttpGet("reservations")]
-        //public ActionResult<ICollection<Reservation>> GetReservations()
-        //{
-        //    return Ok("Hola");
-        //}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservations.Models;
 using SitemaTurnos.Data.Interfaces;
 using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
@@ -8,7 +9,7 @@ namespace SitemaTurnos.Data.Implementations
     public class UserRepository : IUserRepository
     {
 
-        readonly UserDbContext _dbContext;
+        private readonly UserDbContext _dbContext;
 
         public UserRepository(UserDbContext dbContext)
         {
@@ -22,7 +23,7 @@ namespace SitemaTurnos.Data.Implementations
 
         public User GetById(int userId)
         {
-            User usuario = _dbContext.Users.Find(userId);
+            var usuario = _dbContext.Users.Find(userId);
             return usuario;
         }
 
@@ -35,22 +36,6 @@ namespace SitemaTurnos.Data.Implementations
         public User UpdateUser(User user)
         {
             User usuarioExistente = _dbContext.Users.FirstOrDefault(u => u.Id == user.Id);
-
-            if (usuarioExistente != null)
-            {
-                usuarioExistente.Name = user.Name;
-                usuarioExistente.LastName = user.LastName;
-                usuarioExistente.Email = user.Email;
-                usuarioExistente.UserType = user.UserType;
-
-                _dbContext.SaveChanges();
-            }
-            return usuarioExistente;
-        }
-
-        public User UpdateClient(int id , User user)
-        {
-            User usuarioExistente = _dbContext.Users.FirstOrDefault(u => u.Id == id);
 
             if (usuarioExistente != null)
             {

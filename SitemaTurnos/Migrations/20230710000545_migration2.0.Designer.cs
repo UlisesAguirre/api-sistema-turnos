@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SitemaTurnos.DBContext;
 
@@ -10,44 +11,14 @@ using SitemaTurnos.DBContext;
 namespace SistemaTurnos.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230710000545_migration2.0")]
+    partial class migration20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
-
-            modelBuilder.Entity("ReservationTableRestaurant", b =>
-                {
-                    b.Property<int>("ReservationsAssignedId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TablesRestaurantId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ReservationsAssignedId", "TablesRestaurantId");
-
-                    b.HasIndex("TablesRestaurantId");
-
-                    b.ToTable("TablesReservation", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ReservationsAssignedId = 1,
-                            TablesRestaurantId = 1
-                        },
-                        new
-                        {
-                            ReservationsAssignedId = 2,
-                            TablesRestaurantId = 1
-                        },
-                        new
-                        {
-                            ReservationsAssignedId = 3,
-                            TablesRestaurantId = 2
-                        });
-                });
 
             modelBuilder.Entity("ReservationUser", b =>
                 {
@@ -110,7 +81,7 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 1,
-                            DateReservation = new DateTime(2023, 7, 10, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7871),
+                            DateReservation = new DateTime(2023, 7, 10, 21, 5, 45, 228, DateTimeKind.Local).AddTicks(8159),
                             IdClient = 1,
                             IdTable = 1,
                             NumOfPeople = 2,
@@ -119,7 +90,7 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 2,
-                            DateReservation = new DateTime(2023, 7, 11, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7903),
+                            DateReservation = new DateTime(2023, 7, 11, 21, 5, 45, 228, DateTimeKind.Local).AddTicks(8178),
                             IdClient = 2,
                             IdTable = 2,
                             NumOfPeople = 4,
@@ -128,7 +99,7 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 3,
-                            DateReservation = new DateTime(2023, 7, 12, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7906),
+                            DateReservation = new DateTime(2023, 7, 12, 21, 5, 45, 228, DateTimeKind.Local).AddTicks(8181),
                             IdClient = 3,
                             IdTable = 3,
                             NumOfPeople = 3,
@@ -137,7 +108,7 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 4,
-                            DateReservation = new DateTime(2023, 7, 13, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7908),
+                            DateReservation = new DateTime(2023, 7, 13, 21, 5, 45, 228, DateTimeKind.Local).AddTicks(8185),
                             IdClient = 4,
                             IdTable = 4,
                             NumOfPeople = 6,
@@ -157,7 +128,12 @@ namespace SistemaTurnos.Migrations
                     b.Property<int>("Disponibility")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
 
                     b.ToTable("TablesRestaurant");
 
@@ -266,21 +242,6 @@ namespace SistemaTurnos.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ReservationTableRestaurant", b =>
-                {
-                    b.HasOne("SitemaTurnos.Entities.Reservation", null)
-                        .WithMany()
-                        .HasForeignKey("ReservationsAssignedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SitemaTurnos.Entities.TableRestaurant", null)
-                        .WithMany()
-                        .HasForeignKey("TablesRestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ReservationUser", b =>
                 {
                     b.HasOne("SitemaTurnos.Entities.Reservation", null)
@@ -294,6 +255,18 @@ namespace SistemaTurnos.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SitemaTurnos.Entities.TableRestaurant", b =>
+                {
+                    b.HasOne("SitemaTurnos.Entities.Reservation", null)
+                        .WithMany("TablesRestaurant")
+                        .HasForeignKey("ReservationId");
+                });
+
+            modelBuilder.Entity("SitemaTurnos.Entities.Reservation", b =>
+                {
+                    b.Navigation("TablesRestaurant");
                 });
 #pragma warning restore 612, 618
         }

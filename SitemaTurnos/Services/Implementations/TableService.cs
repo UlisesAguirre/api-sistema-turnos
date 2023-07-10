@@ -1,4 +1,6 @@
-﻿using SistemaTurnos.Data.Implementations;
+﻿using AutoMapper;
+using RestaurantReservations.Models;
+using SistemaTurnos.Data.Implementations;
 using SistemaTurnos.Data.Interfaces;
 using SistemaTurnos.Services.Interfaces;
 using SitemaTurnos.Entities;
@@ -8,40 +10,45 @@ namespace SistemaTurnos.Services.Implementations
     public class TableService : ITableService
     {
         private readonly ITableRepository _tableRepository;
-        public TableService(ITableRepository tableRepository)
+        private readonly IMapper _mapper;
+        public TableService(ITableRepository tableRepository, IMapper mapper)
         {
             _tableRepository = tableRepository;
+            _mapper = mapper;
         }
 
-        public List<TableRestaurant> GetTables()
+        public List<TableDto> GetTables()
         {
-            List<TableRestaurant> mesas = _tableRepository.GetAll();
-            return mesas;
+            List<TableRestaurant> tables = _tableRepository.GetAll();
+            return _mapper.Map<List<TableDto>>(tables);
         }
 
-        public TableRestaurant Get(int tableId)
+        public TableDto Get(int tableId)
         {
-            TableRestaurant mesa = _tableRepository.GetById(tableId);
-            return mesa;
-        }
-
-
-        public void Post(TableRestaurant table)
-        {
-            _tableRepository.AddTable(table);
+            TableRestaurant table = _tableRepository.GetById(tableId);
+            return _mapper.Map<TableDto>(table);
         }
 
 
-        public TableRestaurant Put(TableRestaurant table)
+        public void Post(TableDto table)
         {
-            TableRestaurant mesa = _tableRepository.UpdateTable(table);
-            return mesa;
+            TableRestaurant newTable = _mapper.Map<TableRestaurant>(table);
+            _tableRepository.AddTable(newTable);
         }
 
-        public TableRestaurant Delete(int tableId)
+
+        public TableDto Put(TableDto table)
         {
-            TableRestaurant mesaABorrar = _tableRepository.DeleteTable(tableId);
-            return mesaABorrar;
+            TableRestaurant mesa = _mapper.Map<TableRestaurant>(table);
+            TableRestaurant tableModified = _tableRepository.UpdateTable(mesa);
+
+            return _mapper.Map<TableDto>(tableModified);
+        }
+
+        public TableDto Delete(int tableId)
+        {
+            TableRestaurant table = _tableRepository.DeleteTable(tableId);
+            return _mapper.Map<TableDto>(table);
         }
     }
 }

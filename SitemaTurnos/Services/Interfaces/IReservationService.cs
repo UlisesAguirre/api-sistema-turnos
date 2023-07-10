@@ -1,13 +1,14 @@
-﻿using SitemaTurnos.Entities;
+﻿using RestaurantReservations.Models;
+using SitemaTurnos.Entities;
 
 namespace SitemaTurnos.Services.Interfaces
 {
     public interface IReservationService
     {
-        List<Reservation> GetAllReservations();
-        Reservation GetReservations(int id);
-        void Post(Reservation reservation);
-        Reservation Put(Reservation reservation);
-        Reservation Delete(int reservationId);
+        List<ReservationDto> GetAllReservations();
+        ReservationDto GetReservations(int id);
+        void Post(ReservationDto reservation);
+        ReservationDto Put(ReservationDto reservation);
+        ReservationDto Delete(int reservationId);
     }
 }

@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "xxQ+kzVVnHYkL7VBXxTca0Dw9peUSv7EGvnWOAEgiJgvcCvdpMQkfNrUzasvbYpu0cbJeM41DfdMj2mivI4kSw==",
+  "dgSpecHash": "usR+4OgtISgPk38j6Ea4Wlo1A8Lf+2PTdd8cp4yh+eCxpwqFCNT7HFOBoiTyoW9KpkKWsdc7x30h6eFfuLP/aA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Ulise\\source\\repos\\programacionIII\\TPI\\api-sistema-turnos\\SitemaTurnos\\SistemaTurnos.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Ulise\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\Ulise\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\Ulise\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Ulise\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.19\\microsoft.aspnetcore.authentication.jwtbearer.6.0.19.nupkg.sha512",
-    "C:\\Users\\Ulise\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Ulise\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Ulise\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.8\\microsoft.data.sqlite.core.7.0.8.nupkg.sha512",
     "C:\\Users\\Ulise\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.8\\microsoft.entityframeworkcore.7.0.8.nupkg.sha512",
     "C:\\Users\\Ulise\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.8\\microsoft.entityframeworkcore.abstractions.7.0.8.nupkg.sha512",

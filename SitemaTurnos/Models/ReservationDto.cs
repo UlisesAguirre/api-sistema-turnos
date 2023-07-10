@@ -1,4 +1,5 @@
-﻿using SitemaTurnos.Enums;
+﻿using SitemaTurnos.Entities;
+using SitemaTurnos.Enums;
 
 namespace RestaurantReservations.Models
 {
@@ -10,13 +11,8 @@ namespace RestaurantReservations.Models
         public int IdTable { get; set; }
         public int IdClient { get; set; }
         public Disponibility ReservStatus { get; set; }
+
+        //public IList<User> Users { get; set; } = new List<User>();
+        //public IList<TableRestaurant> TablesRestaurant { get; set; } = new List<TableRestaurant>();
     }
 }
-
-/*reserva {
-    fecha y hora
-    cantidad de personas
-    mesa asignada
-    cliente que reservó
-    estado de la reserva(confirmada, cancelada, pendiente)
-}*/

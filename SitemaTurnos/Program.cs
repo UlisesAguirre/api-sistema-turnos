@@ -65,6 +65,8 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
     }
 );
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 ////Añadimos UserService - ReservationService
 builder.Services.AddScoped<IReservationService, ReservationService>();

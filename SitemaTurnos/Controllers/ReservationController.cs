@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantReservations.Models;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Services.Implementations;
 using SitemaTurnos.Services.Interfaces;
+using System.Security.Claims;
 
 namespace SitemaTurnos.Controllers
 {
@@ -20,50 +22,95 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<Reservation>> GetAll() 
+        public ActionResult<List<ReservationDto>> GetAll() 
         {
-            List<Reservation> reservations = _reservationService.GetAllReservations();
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (userRole != "Admin")
+                return Forbid();
+
+            List<ReservationDto> reservations = _reservationService.GetAllReservations();
+
             return Ok(reservations);
         }
 
         [HttpGet("{idReservation}", Name = "GetById")]
-        public ActionResult<Reservation> GetById(int idReservation)
+        public ActionResult<ReservationDto> GetById(int idReservation)
         {
-            Reservation reservation = _reservationService.GetReservations(idReservation);
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            ReservationDto reservation = _reservationService.GetReservations(idReservation);
             if (reservation == null)
             {
                 return NotFound();
             }
+
+            if(userRole != "Admin" && reservation.IdClient != Int32.Parse(user))
+            {
+                return Forbid();
+            }
+
             return Ok(reservation);
         }
 
         [HttpPost("Post")]
-        public ActionResult<Reservation> Post(Reservation reservation)
+        public ActionResult<ReservationDto> Post(ReservationDto reservation)
         {
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (userRole != "Admin")
+            {
+                reservation.IdClient = Int32.Parse(user);
+            }
             _reservationService.Post(reservation);
+
             return Ok();
         }
 
         [HttpPut("Put")]
-        public ActionResult<Reservation> Put([FromBody] Reservation reservation)
+        public ActionResult<ReservationDto> Put([FromBody] ReservationDto reservation)
         {
-            Reservation reserva = _reservationService.Put(reservation);
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            if (reserva == null)
-            {
-                return BadRequest();
-            }
-            return Ok();
-        }
+            
+            ReservationDto reservationModified = _reservationService.Put(reservation);
 
-        [HttpDelete("{reservationId}", Name = "DeleteReservation")]
-        public ActionResult<Reservation> Delete(int reservationId) 
-        {
-            Reservation reservaABorrar = _reservationService.Delete(reservationId);
-            if (reservaABorrar == null)
+            if (reservationModified == null)
             {
                 return NotFound();
             }
+
+            if (userRole != "Admin" && reservationModified.IdClient != Int32.Parse(user))
+            {
+                return Forbid();
+            }
+
+            return Ok();
+            
+        }
+
+        [HttpDelete("{reservationId}", Name = "DeleteReservation")]
+        public ActionResult<ReservationDto> Delete(int reservationId) 
+        {
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            ReservationDto reservation = _reservationService.Delete(reservationId);
+
+            if (userRole != "Admin")
+            {
+                return Forbid();
+            }
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
             return Ok();
         }
     }
