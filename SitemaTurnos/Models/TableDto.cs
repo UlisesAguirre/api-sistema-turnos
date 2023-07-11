@@ -10,7 +10,7 @@ namespace RestaurantReservations.Models
         public int Capacity { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility Disponibility { get; set; }
-        public List<ReservationDto> Reservations { get; set; } = new List<ReservationDto>();
+        public List<Reservation> Reservations { get; } = new List<Reservation>();
 
     }
 }

@@ -23,7 +23,7 @@ namespace SitemaTurnos.Data.Implementations
 
         public User GetById(int userId)
         {
-            var usuario = _dbContext.Users.Find(userId);
+            User usuario = _dbContext.Users.Include(u => u.Reservations).FirstOrDefault(u => u.Id == userId);
             return usuario;
         }
 

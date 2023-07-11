@@ -9,9 +9,12 @@ namespace RestaurantReservations.Models
         public int Id { get; set; }
         public DateTime DateReservation { get; set; }
         public int NumOfPeople { get; set; }
-        public int UserId { get; set; }
-        public int TableId { get; set; }
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility ReservStatus { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public int TableId { get; set; }
+        public TableRestaurant Table { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SitemaTurnos.Data.Interfaces;
 using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
@@ -17,13 +18,13 @@ namespace SitemaTurnos.Data.Implementations
        
         public List<Reservation> GetAllReservations()
         {
-            List<Reservation> reservaciones = _dbContext.Reservations.ToList();
+            List<Reservation> reservaciones = _dbContext.Reservations.Include(u => u.User).Include(t => t.Table).ToList();
             return reservaciones;
         }
 
         public Reservation GetReservationById(int idReservation)
         {
-            Reservation reservaciones = _dbContext.Reservations.Find(idReservation);
+            Reservation reservaciones = _dbContext.Reservations.Include(u => u.User).Include(t => t.Table).FirstOrDefault(u => u.Id == idReservation);
             return reservaciones;
         }
 

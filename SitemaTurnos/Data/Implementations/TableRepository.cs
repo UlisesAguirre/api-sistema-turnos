@@ -17,13 +17,13 @@ namespace SistemaTurnos.Data.Implementations
 
         public List<TableRestaurant> GetAll()
         {
-            List<TableRestaurant> mesas = _dbContext.TablesRestaurant.ToList();
+            List<TableRestaurant> mesas = _dbContext.TablesRestaurant.Include(u => u.Reservations).ToList();
             return mesas;
         }
 
         public TableRestaurant GetById(int tableId)
         {
-            TableRestaurant mesa = _dbContext.TablesRestaurant.Find(tableId);
+            TableRestaurant mesa = _dbContext.TablesRestaurant.Include(u => u.Reservations).FirstOrDefault(u => u.Id == tableId);
             return mesa;
         }
 

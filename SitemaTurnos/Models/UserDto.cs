@@ -1,5 +1,6 @@
 ﻿using SitemaTurnos.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace RestaurantReservations.Models
 {
@@ -11,7 +12,7 @@ namespace RestaurantReservations.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public string UserType { get; set; }
-        public List<ReservationDto> Reservations { get; set; } = new List<ReservationDto>();
+        public List<Reservation> Reservations { get; } = new List<Reservation>();
 
     }
 }

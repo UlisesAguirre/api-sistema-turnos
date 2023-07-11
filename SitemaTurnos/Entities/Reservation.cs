@@ -16,10 +16,11 @@ namespace SitemaTurnos.Entities
         public Disponibility ReservStatus { get; set; }
         [ForeignKey("TableRestaurant")]
         public int TableId { get; set; }
+        [JsonIgnore]
         public TableRestaurant Table { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
-
+        [JsonIgnore]
         public User User { get; set; }
 
     }

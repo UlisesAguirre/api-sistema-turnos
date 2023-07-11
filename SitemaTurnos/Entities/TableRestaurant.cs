@@ -14,7 +14,7 @@ namespace SitemaTurnos.Entities
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility Disponibility { get; set; }
         [JsonIgnore]
-        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public List<Reservation> Reservations { get; } = new List<Reservation>();
 
     }
 }
