@@ -47,7 +47,7 @@ namespace SitemaTurnos.Controllers
                 return NotFound();
             }
 
-            if(userRole != "Admin" && reservation.IdClient != Int32.Parse(user))
+            if(userRole != "Admin" && reservation.UserId != Int32.Parse(user))
             {
                 return Forbid();
             }
@@ -63,7 +63,7 @@ namespace SitemaTurnos.Controllers
 
             if (userRole != "Admin")
             {
-                reservation.IdClient = Int32.Parse(user);
+                reservation.UserId = Int32.Parse(user);
             }
             _reservationService.Post(reservation);
 
@@ -84,7 +84,7 @@ namespace SitemaTurnos.Controllers
                 return NotFound();
             }
 
-            if (userRole != "Admin" && reservationModified.IdClient != Int32.Parse(user))
+            if (userRole != "Admin" && reservationModified.UserId != Int32.Parse(user))
             {
                 return Forbid();
             }

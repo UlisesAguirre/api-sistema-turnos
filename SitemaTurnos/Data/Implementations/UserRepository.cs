@@ -17,7 +17,7 @@ namespace SitemaTurnos.Data.Implementations
         }
         public List<User> GetAll()
         {
-            List<User> usuarios = _dbContext.Users.ToList();
+            List<User> usuarios = _dbContext.Users.Include(m => m.Reservations).ToList();
             return usuarios;
         }
 

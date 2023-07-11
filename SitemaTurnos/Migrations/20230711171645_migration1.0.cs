@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SistemaTurnos.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class migration10 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,29 +53,24 @@ namespace SistemaTurnos.Migrations
                     DateReservation = table.Column<DateTime>(type: "TEXT", nullable: false),
                     NumOfPeople = table.Column<int>(type: "INTEGER", nullable: false),
                     ReservStatus = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdTable = table.Column<int>(type: "INTEGER", nullable: false),
-                    IdClient = table.Column<int>(type: "INTEGER", nullable: false),
-                    TableRestaurantId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TableId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservations_TablesRestaurant_TableRestaurantId",
-                        column: x => x.TableRestaurantId,
+                        name: "FK_Reservations_TablesRestaurant_TableId",
+                        column: x => x.TableId,
                         principalTable: "TablesRestaurant",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.InsertData(
-                table: "Reservations",
-                columns: new[] { "Id", "DateReservation", "IdClient", "IdTable", "NumOfPeople", "ReservStatus", "TableRestaurantId" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2023, 6, 26, 19, 21, 27, 843, DateTimeKind.Local).AddTicks(3114), 1, 1, 2, 1, null },
-                    { 2, new DateTime(2023, 6, 27, 19, 21, 27, 843, DateTimeKind.Local).AddTicks(3133), 2, 2, 4, 1, null },
-                    { 3, new DateTime(2023, 6, 28, 19, 21, 27, 843, DateTimeKind.Local).AddTicks(3136), 3, 3, 3, 1, null },
-                    { 4, new DateTime(2023, 6, 29, 19, 21, 27, 843, DateTimeKind.Local).AddTicks(3137), 4, 4, 6, 1, null }
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -98,13 +93,31 @@ namespace SistemaTurnos.Migrations
                     { 2, "emma.smith@example.com", "Smith", "Emma", "1234", "Client" },
                     { 3, "michael.johnson@example.com", "Johnson", "Michael", "1234", "Client" },
                     { 4, "sophia.brown@example.com", "Brown", "Sophia", "1234", "Admin" },
-                    { 5, "robert.lee@example.com", "Lee", "Robert", "1234", "Manager" }
+                    { 5, "robert.lee@example.com", "Lee", "Robert", "1234", "Manager" },
+                    { 6, "admin@gmail.com", "principal", "admin", "1234", "Admin" },
+                    { 7, "client@example.com", "principal", "cliente", "1234", "Client" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "Id", "DateReservation", "NumOfPeople", "ReservStatus", "TableId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 7, 12, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6309), 2, 1, 1, 1 },
+                    { 2, new DateTime(2023, 7, 13, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6332), 4, 1, 2, 2 },
+                    { 3, new DateTime(2023, 7, 14, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6335), 3, 1, 3, 3 },
+                    { 4, new DateTime(2023, 7, 15, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6336), 6, 1, 4, 4 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_TableRestaurantId",
+                name: "IX_Reservations_TableId",
                 table: "Reservations",
-                column: "TableRestaurantId");
+                column: "TableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -114,10 +127,10 @@ namespace SistemaTurnos.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "TablesRestaurant");
 
             migrationBuilder.DropTable(
-                name: "TablesRestaurant");
+                name: "Users");
         }
     }
 }

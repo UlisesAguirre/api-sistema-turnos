@@ -11,7 +11,7 @@ namespace RestaurantReservations.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public string UserType { get; set; }
-        //public IList<Reservation> ReservationsDone { get; set; } = new List<Reservation>();
+        public List<ReservationDto> Reservations { get; set; } = new List<ReservationDto>();
 
     }
 }

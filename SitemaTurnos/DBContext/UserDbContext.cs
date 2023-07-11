@@ -16,6 +16,16 @@ namespace SitemaTurnos.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Table)
+                .WithMany(m => m.Reservations)
+                .HasForeignKey(r => r.TableId);
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reservations)
+                .HasForeignKey(r => r.UserId);
+
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
@@ -61,6 +71,24 @@ namespace SitemaTurnos.DBContext
                     Email = "robert.lee@example.com",
                     Password = "1234",
                     UserType = "Manager"
+                },
+                new User
+                {
+                    Id = 6,
+                    Name = "admin",
+                    LastName = "principal",
+                    Email = "admin@gmail.com",
+                    Password = "1234",
+                    UserType = "Admin"
+                },
+                new User
+                {
+                    Id = 7,
+                    Name = "cliente",
+                    LastName = "principal",
+                    Email = "client@example.com",
+                    Password = "1234",
+                    UserType = "Client"
                 });
 
             modelBuilder.Entity<Reservation>().HasData(
@@ -70,8 +98,8 @@ namespace SitemaTurnos.DBContext
                    DateReservation = DateTime.Now.AddDays(1),
                    NumOfPeople = 2,
                    ReservStatus = Disponibility.Reservado,
-                   IdTable = 1,
-                   IdClient = 1
+                   TableId = 1,
+                   UserId = 1
                 },
                 new Reservation
                 {
@@ -79,8 +107,8 @@ namespace SitemaTurnos.DBContext
                     DateReservation = DateTime.Now.AddDays(2),
                     NumOfPeople = 4,
                     ReservStatus = Disponibility.Reservado,
-                    IdTable = 2,
-                    IdClient = 2
+                    TableId = 2,
+                    UserId = 2
                 },
                 new Reservation
                 {
@@ -88,8 +116,8 @@ namespace SitemaTurnos.DBContext
                     DateReservation = DateTime.Now.AddDays(3),
                     NumOfPeople = 3,
                     ReservStatus = Disponibility.Reservado,
-                    IdTable = 3,
-                    IdClient = 3
+                    TableId = 3,
+                    UserId = 3
                 },
                 new Reservation
                 {
@@ -97,8 +125,8 @@ namespace SitemaTurnos.DBContext
                     DateReservation = DateTime.Now.AddDays(4),
                     NumOfPeople = 6,
                     ReservStatus = Disponibility.Reservado,
-                    IdTable = 4,
-                    IdClient = 4
+                    TableId = 4,
+                    UserId = 4
                 }
             );
 
@@ -128,34 +156,6 @@ namespace SitemaTurnos.DBContext
                     Disponibility = Disponibility.Cancelado
                 }
             );
-
-            modelBuilder.Entity<Reservation>()
-                .HasMany(x => x.Users)
-                .WithMany(x => x.ReservationsDone)
-                .UsingEntity(j => j
-                    .ToTable("UsersReservations")
-                    .HasData(new[]
-                        {
-                            new { UsersId = 1, ReservationsDoneId = 1},
-                            new { UsersId = 1, ReservationsDoneId = 2},
-                            new { UsersId = 4, ReservationsDoneId = 3},
-
-                        }
-                    ));
-
-            modelBuilder.Entity<Reservation>()
-                .HasMany(x => x.TablesRestaurant)
-                .WithMany(x => x.ReservationsAssigned)
-                .UsingEntity(j => j
-                    .ToTable("TablesReservation")
-                    .HasData(new[]
-                        {
-                            new { TablesRestaurantId = 1, ReservationsAssignedId = 1},
-                            new { TablesRestaurantId = 1, ReservationsAssignedId = 2},
-                            new { TablesRestaurantId = 2, ReservationsAssignedId = 3},
-
-                        }
-                    ));
 
             base.OnModelCreating(modelBuilder);
         }

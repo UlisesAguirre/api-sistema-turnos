@@ -11,78 +11,14 @@ using SitemaTurnos.DBContext;
 namespace SistemaTurnos.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20230710010403_migration2.1")]
-    partial class migration21
+    [Migration("20230711171645_migration1.0")]
+    partial class migration10
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
-
-            modelBuilder.Entity("ReservationTableRestaurant", b =>
-                {
-                    b.Property<int>("ReservationsAssignedId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TablesRestaurantId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ReservationsAssignedId", "TablesRestaurantId");
-
-                    b.HasIndex("TablesRestaurantId");
-
-                    b.ToTable("TablesReservation", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ReservationsAssignedId = 1,
-                            TablesRestaurantId = 1
-                        },
-                        new
-                        {
-                            ReservationsAssignedId = 2,
-                            TablesRestaurantId = 1
-                        },
-                        new
-                        {
-                            ReservationsAssignedId = 3,
-                            TablesRestaurantId = 2
-                        });
-                });
-
-            modelBuilder.Entity("ReservationUser", b =>
-                {
-                    b.Property<int>("ReservationsDoneId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ReservationsDoneId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UsersReservations", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ReservationsDoneId = 1,
-                            UsersId = 1
-                        },
-                        new
-                        {
-                            ReservationsDoneId = 2,
-                            UsersId = 1
-                        },
-                        new
-                        {
-                            ReservationsDoneId = 3,
-                            UsersId = 4
-                        });
-                });
 
             modelBuilder.Entity("SitemaTurnos.Entities.Reservation", b =>
                 {
@@ -93,19 +29,23 @@ namespace SistemaTurnos.Migrations
                     b.Property<DateTime>("DateReservation")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("IdClient")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("IdTable")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("NumOfPeople")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ReservStatus")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("TableId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TableId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
 
@@ -113,38 +53,38 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 1,
-                            DateReservation = new DateTime(2023, 7, 10, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7871),
-                            IdClient = 1,
-                            IdTable = 1,
+                            DateReservation = new DateTime(2023, 7, 12, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6309),
                             NumOfPeople = 2,
-                            ReservStatus = 1
+                            ReservStatus = 1,
+                            TableId = 1,
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            DateReservation = new DateTime(2023, 7, 11, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7903),
-                            IdClient = 2,
-                            IdTable = 2,
+                            DateReservation = new DateTime(2023, 7, 13, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6332),
                             NumOfPeople = 4,
-                            ReservStatus = 1
+                            ReservStatus = 1,
+                            TableId = 2,
+                            UserId = 2
                         },
                         new
                         {
                             Id = 3,
-                            DateReservation = new DateTime(2023, 7, 12, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7906),
-                            IdClient = 3,
-                            IdTable = 3,
+                            DateReservation = new DateTime(2023, 7, 14, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6335),
                             NumOfPeople = 3,
-                            ReservStatus = 1
+                            ReservStatus = 1,
+                            TableId = 3,
+                            UserId = 3
                         },
                         new
                         {
                             Id = 4,
-                            DateReservation = new DateTime(2023, 7, 13, 22, 4, 2, 977, DateTimeKind.Local).AddTicks(7908),
-                            IdClient = 4,
-                            IdTable = 4,
+                            DateReservation = new DateTime(2023, 7, 15, 14, 16, 45, 386, DateTimeKind.Local).AddTicks(6336),
                             NumOfPeople = 6,
-                            ReservStatus = 1
+                            ReservStatus = 1,
+                            TableId = 4,
+                            UserId = 4
                         });
                 });
 
@@ -266,37 +206,54 @@ namespace SistemaTurnos.Migrations
                             Name = "Robert",
                             Password = "1234",
                             UserType = "Manager"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Email = "admin@gmail.com",
+                            LastName = "principal",
+                            Name = "admin",
+                            Password = "1234",
+                            UserType = "Admin"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Email = "client@example.com",
+                            LastName = "principal",
+                            Name = "cliente",
+                            Password = "1234",
+                            UserType = "Client"
                         });
                 });
 
-            modelBuilder.Entity("ReservationTableRestaurant", b =>
+            modelBuilder.Entity("SitemaTurnos.Entities.Reservation", b =>
                 {
-                    b.HasOne("SitemaTurnos.Entities.Reservation", null)
-                        .WithMany()
-                        .HasForeignKey("ReservationsAssignedId")
+                    b.HasOne("SitemaTurnos.Entities.TableRestaurant", "Table")
+                        .WithMany("Reservations")
+                        .HasForeignKey("TableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SitemaTurnos.Entities.TableRestaurant", null)
-                        .WithMany()
-                        .HasForeignKey("TablesRestaurantId")
+                    b.HasOne("SitemaTurnos.Entities.User", "User")
+                        .WithMany("Reservations")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Table");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ReservationUser", b =>
+            modelBuilder.Entity("SitemaTurnos.Entities.TableRestaurant", b =>
                 {
-                    b.HasOne("SitemaTurnos.Entities.Reservation", null)
-                        .WithMany()
-                        .HasForeignKey("ReservationsDoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Reservations");
+                });
 
-                    b.HasOne("SitemaTurnos.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("SitemaTurnos.Entities.User", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

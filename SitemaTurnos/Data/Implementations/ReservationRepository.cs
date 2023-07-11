@@ -43,8 +43,8 @@ namespace SitemaTurnos.Data.Implementations
                 reservaExistente.DateReservation = reservation.DateReservation;
                 reservaExistente.NumOfPeople = reservation.NumOfPeople;
                 reservaExistente.ReservStatus = reservation.ReservStatus;
-                reservaExistente.IdTable = reservation.IdTable;
-                reservaExistente.IdClient = reservation.IdClient;
+                reservaExistente.TableId = reservation.TableId;
+                reservaExistente.UserId = reservation.UserId;
 
                 _dbContext.SaveChanges();
             }
