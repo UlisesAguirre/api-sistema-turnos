@@ -63,6 +63,8 @@ namespace SitemaTurnos.Controllers
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
+            reservation.ReservStatus = Disponibility.Reservado;
+
             if (!Enum.IsDefined(typeof(Turns), reservation.turn) || !Enum.IsDefined(typeof(Disponibility), reservation.ReservStatus))
             {
                 return BadRequest();
@@ -92,13 +94,12 @@ namespace SitemaTurnos.Controllers
                 return BadRequest();
             }
 
-            ReservationDto reservationModified = _reservationService.Put(reservation);
-
-
-            if (userRole != "Admin" && reservationModified.UserId != Int32.Parse(user))
+            if (userRole != "Admin")
             {
-                return Forbid();
+                reservation.UserId = Int32.Parse(user);
             }
+
+            ReservationDto reservationModified = _reservationService.Put(reservation);
 
             if (reservationModified == null)
             {

@@ -32,18 +32,16 @@ namespace SitemaTurnos.Data.Implementations
         {
             var user = _dbContext.Users.Find(reservation.UserId);
             var table = _dbContext.TablesRestaurant.Find(reservation.TableId);
-            var reservationTurn = _dbContext.Reservations.FirstOrDefault(r => r.turn == reservation.turn && r.DateReservation == reservation.DateReservation);
+            var reservationTurn = _dbContext.Reservations.FirstOrDefault(r => r.turn == reservation.turn && r.DateReservation == reservation.DateReservation && r.TableId == reservation.TableId);
             
-            if (user  != null && table != null)
+            if (user != null && table != null && reservationTurn == null)
             {
-                if ( reservationTurn == null)
-                {
-                    _dbContext.Reservations.Add(reservation);
+               _dbContext.Reservations.Add(reservation);
 
-                    _dbContext.SaveChanges();
+               _dbContext.SaveChanges();
 
-                    return reservation;
-                }
+                return reservation;
+
             }
             return null;
         }
@@ -52,7 +50,16 @@ namespace SitemaTurnos.Data.Implementations
         {
             Reservation reservaExistente = _dbContext.Reservations.FirstOrDefault(r => r.Id == reservation.Id);
 
-            if (reservaExistente != null)
+            if (reservaExistente == null)
+            {
+                return reservaExistente;
+            }
+
+            var user = _dbContext.Users.Find(reservation.UserId);
+            var table = _dbContext.TablesRestaurant.Find(reservation.TableId);
+            var reservationTurn = _dbContext.Reservations.FirstOrDefault(r => r.turn == reservation.turn && r.DateReservation == reservation.DateReservation && r.TableId == reservation.TableId);
+
+            if (user != null && table != null && reservationTurn == null && reservaExistente.UserId == user.Id)
             {
                 reservaExistente.DateReservation = reservation.DateReservation;
                 reservaExistente.NumOfPeople = reservation.NumOfPeople;
@@ -62,7 +69,7 @@ namespace SitemaTurnos.Data.Implementations
 
                 _dbContext.SaveChanges();
             }
-            return reservaExistente;
+            return null;
         }
 
         public Reservation DeleteReservation(int reservationId)

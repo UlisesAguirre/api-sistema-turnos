@@ -14,16 +14,13 @@ namespace SitemaTurnos.Services.Implementations
     {
         private readonly IMapper _mapper;
         private readonly IReservationRepository _reservationRepository;
-        private readonly IRestaurantRepository _restaurantRepository;
         private readonly IUserRepository _userRepository;
         private readonly ITableRepository _tableRepository;
-        public ReservationService(IMapper mapper, IReservationRepository reservationRepository,
-                IRestaurantRepository restaurantRepository, IUserRepository userRepository, ITableRepository tableRepository) 
+        public ReservationService(IMapper mapper, IReservationRepository reservationRepository, IUserRepository userRepository, ITableRepository tableRepository) 
         {
 
             _mapper = mapper;
             _reservationRepository = reservationRepository;
-            _restaurantRepository = restaurantRepository;
             _userRepository = userRepository;
             _tableRepository = tableRepository;
         }
@@ -40,7 +37,6 @@ namespace SitemaTurnos.Services.Implementations
 
         public ReservationDto Post(ReservationDto reservation) 
         {
-            Restaurant restaurantData = _restaurantRepository.GetRestaurantData(); //Ver esto
 
             reservation.User = _userRepository.GetById(reservation.UserId);
             reservation.Table = _tableRepository.GetById(reservation.TableId);
