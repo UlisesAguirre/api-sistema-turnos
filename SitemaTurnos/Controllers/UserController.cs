@@ -38,7 +38,7 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpGet("{idUser}", Name = "get")]
-        public ActionResult<UserDto> Get(int userId)
+        public ActionResult<UserDto> Get([FromRoute] int idUser)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -54,7 +54,7 @@ namespace SitemaTurnos.Controllers
                 return Ok(usuario);
             }
 
-            UserDto adminUsuario = _userService.Get(userId);
+            UserDto adminUsuario = _userService.Get(idUser);
 
             if (adminUsuario == null)
             {
@@ -102,7 +102,7 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpDelete("{idUserToDelete}", Name = "DeleteUser")]
-        public ActionResult<UserDto> Delete(int userId)
+        public ActionResult<UserDto> Delete([FromRoute] int idUserToDelete)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -118,7 +118,7 @@ namespace SitemaTurnos.Controllers
                 return Ok();
             }
 
-            UserDto adminUsuario = _userService.Delete(userId);
+            UserDto adminUsuario = _userService.Delete(idUserToDelete);
 
             if (adminUsuario == null)
             {

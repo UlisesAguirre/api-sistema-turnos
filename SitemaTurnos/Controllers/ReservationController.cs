@@ -18,13 +18,13 @@ namespace SitemaTurnos.Controllers
     {
         private readonly IReservationService _reservationService;
 
-        public ReservationController(IReservationService reservationService) 
+        public ReservationController(IReservationService reservationService)
         {
             _reservationService = reservationService;
         }
 
         [HttpGet("GetReservations")]
-        public ActionResult<List<Reservation>> GetAll() 
+        public ActionResult<List<Reservation>> GetAll()
         {
             var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -38,7 +38,7 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpGet("{idReservation}", Name = "GetById")]
-        public ActionResult<Reservation> GetById(int idReservation)
+        public ActionResult<Reservation> GetById([FromRoute] int idReservation)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -49,7 +49,7 @@ namespace SitemaTurnos.Controllers
                 return NotFound();
             }
 
-            if(userRole != "Admin" && reservation.UserId != Int32.Parse(user))
+            if (userRole != "Admin" && reservation.UserId != Int32.Parse(user))
             {
                 return Forbid();
             }
@@ -75,7 +75,7 @@ namespace SitemaTurnos.Controllers
             {
                 reservation.UserId = Int32.Parse(user);
             }
-             ReservationDto newReservation = _reservationService.Post(reservation);
+            ReservationDto newReservation = _reservationService.Post(reservation);
 
             if (newReservation != null)
             {
@@ -111,16 +111,16 @@ namespace SitemaTurnos.Controllers
             }
 
             return Ok();
-            
+
         }
 
         [HttpDelete("{idReservationToDelete}", Name = "DeleteReservation")]
-        public ActionResult<ReservationDto> Delete(int reservationId) 
+        public ActionResult<ReservationDto> Delete([FromRoute] int idReservationToDelete) 
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            ReservationDto reservation = _reservationService.Delete(reservationId);
+            ReservationDto reservation = _reservationService.Delete(idReservationToDelete);
 
             if (userRole != "Admin")
             {
@@ -144,8 +144,14 @@ namespace SitemaTurnos.Controllers
 
             date = date.Date + TimeSpan.Zero;
 
+            List<Reservation> reservations = _reservationService.ReservationsForDate(date, disponibility, userRole);
 
-            return _reservationService.ReservationsForDate(date, disponibility, userRole);
+            if (!reservations.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(reservations);
 
         }
     }

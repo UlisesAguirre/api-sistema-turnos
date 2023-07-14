@@ -15,8 +15,10 @@ namespace RestaurantReservations.Models
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility ReservStatus { get; set; }
         public int UserId { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
         public int TableId { get; set; }
+        [JsonIgnore]
         public TableRestaurant Table { get; set; }
     }
 }

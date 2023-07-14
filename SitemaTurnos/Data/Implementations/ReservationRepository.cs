@@ -30,6 +30,12 @@ namespace SitemaTurnos.Data.Implementations
             return reservaciones;
         }
 
+        public List<Reservation> GetReservationByTable(int id)
+        {
+            List<Reservation> reservaciones = _dbContext.Reservations.Include(u => u.User).Include(t => t.Table).Where(r => r.TableId == id).ToList();
+            return reservaciones;
+        }
+
         public Reservation AddReservation(Reservation reservation)
         {
             var user = _dbContext.Users.Find(reservation.UserId);

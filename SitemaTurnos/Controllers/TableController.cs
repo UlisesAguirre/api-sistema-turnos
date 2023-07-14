@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservations.Models;
+using SistemaTurnos.Enums;
 using SistemaTurnos.Services.Interfaces;
 using SitemaTurnos.Entities;
+using SitemaTurnos.Enums;
 using System.Security.Claims;
 
 namespace SistemaTurnos.Controllers
@@ -31,8 +33,8 @@ namespace SistemaTurnos.Controllers
             return Ok(tables);
         }
 
-        [HttpGet("{idTable}", Name = "getTable")]
-        public ActionResult<TableDto> GetTable(int tableId)
+        [HttpGet("{tableId}", Name = "getTable")]
+        public ActionResult<TableDto> GetTable([FromRoute]int tableId)
         {
             TableDto table = _tableService.Get(tableId);
 
@@ -78,7 +80,7 @@ namespace SistemaTurnos.Controllers
         }
 
         [HttpDelete("{idTableToDelete}", Name = "DeleteTable")]
-        public ActionResult<TableDto> Delete(int tableId) 
+        public ActionResult<TableDto> Delete([FromRoute] int idTableToDelete) 
         {
             var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -86,13 +88,30 @@ namespace SistemaTurnos.Controllers
             if (userRole != "Admin")
                 return Forbid();
 
-            TableDto table = _tableService.Delete(tableId);
+            TableDto table = _tableService.Delete(idTableToDelete);
             if (table == null)
             {
                 return NotFound();
             }
             return Ok();
         }
+        [HttpGet("TablesForDate")]
+        public ActionResult<List<TableDto>> GetTablesForDate([FromQuery] DateTime date, [FromQuery] Disponibility disponibility, [FromQuery]Turns turn)
+        {
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
+            date = date.Date + TimeSpan.Zero;
+
+            List<TableDto> tables = _tableService.TablesForDate(date, disponibility, turn, userRole);
+
+            if(!tables.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(tables);
+
+        }
     }
 }

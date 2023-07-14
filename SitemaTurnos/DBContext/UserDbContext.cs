@@ -109,9 +109,9 @@ namespace SitemaTurnos.DBContext
                 new Reservation
                    {
                    Id = 1,
-                   DateReservation = DateTime.Now.AddDays(1),
+                   DateReservation = new DateTime(2023, 7, 18, 0, 0, 0),
                    NumOfPeople = 2,
-                   ReservStatus = Disponibility.Reservado,
+                   ReservStatus = Disponibility.Disponible,
                    turn = Turns.Turn18,
                    TableId = 1,
                    UserId = 1
@@ -119,7 +119,7 @@ namespace SitemaTurnos.DBContext
                 new Reservation
                 {
                     Id = 2,
-                    DateReservation = DateTime.Now.AddDays(2),
+                    DateReservation = new DateTime(2023, 7, 18, 0, 0, 0),
                     NumOfPeople = 4,
                     ReservStatus = Disponibility.Reservado,
                     turn = Turns.Turn20,
@@ -129,9 +129,9 @@ namespace SitemaTurnos.DBContext
                 new Reservation
                 {
                     Id = 3,
-                    DateReservation = DateTime.Now.AddDays(3),
+                    DateReservation = new DateTime(2023, 7, 18, 0, 0, 0),
                     NumOfPeople = 3,
-                    ReservStatus = Disponibility.Reservado,
+                    ReservStatus = Disponibility.Cancelado,
                     turn = Turns.Turn22,
                     TableId = 3,
                     UserId = 3
@@ -139,9 +139,9 @@ namespace SitemaTurnos.DBContext
                 new Reservation
                 {
                     Id = 4,
-                    DateReservation = DateTime.Now.AddDays(4),
+                    DateReservation = new DateTime(2023, 7, 18, 0, 0, 0),
                     NumOfPeople = 6,
-                    ReservStatus = Disponibility.Reservado,
+                    ReservStatus = Disponibility.Disponible,
                     turn = Turns.Turn18,
                     TableId = 4,
                     UserId = 4
@@ -153,21 +153,25 @@ namespace SitemaTurnos.DBContext
                 { 
                     Id = 1,
                     Capacity = 4,
+                    Disponibility = Disponibility.Disponible,
                 },
                 new TableRestaurant 
                 { 
                     Id = 2,
                     Capacity = 3,
+                    Disponibility = Disponibility.Disponible,
                 },
                 new TableRestaurant
                 { 
                     Id = 3,
                     Capacity = 2,
+                    Disponibility = Disponibility.Disponible,
                 },
                 new TableRestaurant
                 { 
                     Id = 4,
-                    Capacity = 1
+                    Capacity = 1,
+                   Disponibility = Disponibility.Disponible,
                 }
             );
 

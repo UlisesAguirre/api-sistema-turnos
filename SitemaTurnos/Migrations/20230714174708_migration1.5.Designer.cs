@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SitemaTurnos.DBContext;
 
@@ -10,9 +11,11 @@ using SitemaTurnos.DBContext;
 namespace SistemaTurnos.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230714174708_migration1.5")]
+    partial class migration15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
@@ -53,9 +56,9 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 1,
-                            DateReservation = new DateTime(2023, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateReservation = new DateTime(2023, 7, 15, 14, 47, 7, 765, DateTimeKind.Local).AddTicks(1494),
                             NumOfPeople = 2,
-                            ReservStatus = 0,
+                            ReservStatus = 1,
                             TableId = 1,
                             UserId = 1,
                             turn = 0
@@ -63,7 +66,7 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 2,
-                            DateReservation = new DateTime(2023, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateReservation = new DateTime(2023, 7, 16, 14, 47, 7, 765, DateTimeKind.Local).AddTicks(1517),
                             NumOfPeople = 4,
                             ReservStatus = 1,
                             TableId = 2,
@@ -73,9 +76,9 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 3,
-                            DateReservation = new DateTime(2023, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateReservation = new DateTime(2023, 7, 17, 14, 47, 7, 765, DateTimeKind.Local).AddTicks(1519),
                             NumOfPeople = 3,
-                            ReservStatus = 2,
+                            ReservStatus = 1,
                             TableId = 3,
                             UserId = 3,
                             turn = 2
@@ -83,9 +86,9 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 4,
-                            DateReservation = new DateTime(2023, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateReservation = new DateTime(2023, 7, 18, 14, 47, 7, 765, DateTimeKind.Local).AddTicks(1521),
                             NumOfPeople = 6,
-                            ReservStatus = 0,
+                            ReservStatus = 1,
                             TableId = 4,
                             UserId = 4,
                             turn = 0

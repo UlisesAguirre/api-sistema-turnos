@@ -7,6 +7,7 @@ namespace SitemaTurnos.Data.Interfaces
     {
         List<Reservation> GetAllReservations();
         Reservation GetReservationById(int reservationId);
+        List<Reservation> GetReservationByTable(int id);
         Reservation AddReservation(Reservation reservation);
         Reservation UpdateReservation(Reservation reservation);
         Reservation DeleteReservation(int reservationId);

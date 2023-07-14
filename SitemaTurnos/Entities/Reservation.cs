@@ -17,12 +17,12 @@ namespace SitemaTurnos.Entities
         public int NumOfPeople { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility ReservStatus { get; set; }
-        [ForeignKey("TableRestaurant")]
-        public int TableId { get; set; }
-        public TableRestaurant Table { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
         public User User { get; set; }
+        [ForeignKey("TableRestaurant")]
+        public int TableId { get; set; }
+        public TableRestaurant Table { get; set; }
 
     }
 }
