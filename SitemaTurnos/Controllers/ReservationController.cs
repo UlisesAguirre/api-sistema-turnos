@@ -23,7 +23,7 @@ namespace SitemaTurnos.Controllers
             _reservationService = reservationService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("GetReservations")]
         public ActionResult<List<Reservation>> GetAll() 
         {
             var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -64,6 +64,7 @@ namespace SitemaTurnos.Controllers
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
             reservation.ReservStatus = Disponibility.Reservado;
+            reservation.DateReservation = reservation.DateReservation.Date + TimeSpan.Zero;
 
             if (!Enum.IsDefined(typeof(Turns), reservation.turn) || !Enum.IsDefined(typeof(Disponibility), reservation.ReservStatus))
             {
@@ -89,6 +90,9 @@ namespace SitemaTurnos.Controllers
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
+
+            reservation.DateReservation = reservation.DateReservation.Date + TimeSpan.Zero;
+
             if (!Enum.IsDefined(typeof(Turns), reservation.turn) || !Enum.IsDefined(typeof(Disponibility), reservation.ReservStatus))
             {
                 return BadRequest();
@@ -110,7 +114,7 @@ namespace SitemaTurnos.Controllers
             
         }
 
-        [HttpDelete("{reservationId}", Name = "DeleteReservation")]
+        [HttpDelete("{idReservationToDelete}", Name = "DeleteReservation")]
         public ActionResult<ReservationDto> Delete(int reservationId) 
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;

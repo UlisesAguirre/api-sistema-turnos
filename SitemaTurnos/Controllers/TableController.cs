@@ -31,7 +31,7 @@ namespace SistemaTurnos.Controllers
             return Ok(tables);
         }
 
-        [HttpGet("{tableId}", Name = "getTable")]
+        [HttpGet("{idTable}", Name = "getTable")]
         public ActionResult<TableDto> GetTable(int tableId)
         {
             TableDto table = _tableService.Get(tableId);
@@ -77,7 +77,7 @@ namespace SistemaTurnos.Controllers
             return Ok();
         }
 
-        [HttpDelete("{tableId}", Name = "DeleteTable")]
+        [HttpDelete("{idTableToDelete}", Name = "DeleteTable")]
         public ActionResult<TableDto> Delete(int tableId) 
         {
             var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;

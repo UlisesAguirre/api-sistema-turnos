@@ -32,7 +32,7 @@ namespace SitemaTurnos.Data.Implementations
         {
             var user = _dbContext.Users.Find(reservation.UserId);
             var table = _dbContext.TablesRestaurant.Find(reservation.TableId);
-            var reservationTurn = _dbContext.Reservations.FirstOrDefault(r => r.turn == reservation.turn && r.DateReservation == reservation.DateReservation && r.TableId == reservation.TableId);
+            var reservationTurn = _dbContext.Reservations.FirstOrDefault(r => r.turn == reservation.turn && r.DateReservation == reservation.DateReservation && r.TableId == reservation.TableId && r.ReservStatus != Disponibility.Cancelado);
             
             if (user != null && table != null && reservationTurn == null)
             {

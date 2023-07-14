@@ -37,7 +37,7 @@ namespace SitemaTurnos.Controllers
             return Ok(usuarios);
         }
 
-        [HttpGet("{userId}", Name = "get")]
+        [HttpGet("{idUser}", Name = "get")]
         public ActionResult<UserDto> Get(int userId)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -101,7 +101,7 @@ namespace SitemaTurnos.Controllers
             return Ok();
         }
 
-        [HttpDelete("{userId}", Name = "DeleteUser")]
+        [HttpDelete("{idUserToDelete}", Name = "DeleteUser")]
         public ActionResult<UserDto> Delete(int userId)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
