@@ -58,7 +58,7 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpPost("Post")]
-        public ActionResult<ReservationDto> Post(ReservationDto reservation)
+        public ActionResult<ReservationDto> Post([FromBody] ReservationDto reservation)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -133,6 +133,20 @@ namespace SitemaTurnos.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("ReservationsForDate")]
+
+        public ActionResult<List<Reservation>> GetReservationsForDate([FromQuery] DateTime date, [FromQuery] Disponibility disponibility)
+        {
+            var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            date = date.Date + TimeSpan.Zero;
+
+
+            return _reservationService.ReservationsForDate(date, disponibility, userRole);
+
         }
     }
 }

@@ -66,5 +66,18 @@ namespace SitemaTurnos.Services.Implementations
             Reservation reservationDeleted = _reservationRepository.DeleteReservation(reservationId);
             return _mapper.Map<ReservationDto>(reservationDeleted);
         }
+
+        public List<Reservation> ReservationsForDate(DateTime date, Disponibility disponibility, string userRole)
+        {
+            List<Reservation> reservations = _reservationRepository.ReservationsForDate(date, disponibility, userRole);
+
+            foreach (Reservation reservation in reservations)
+            {
+                reservation.User = _userRepository.GetById(reservation.UserId);
+                reservation.Table = _tableRepository.GetById(reservation.TableId);
+            }
+
+            return reservations;
+        }
     }
 }

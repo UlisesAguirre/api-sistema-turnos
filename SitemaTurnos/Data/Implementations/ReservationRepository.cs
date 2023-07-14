@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SitemaTurnos.Data.Interfaces;
 using SitemaTurnos.DBContext;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Enums;
+using System.Linq;
 
 namespace SitemaTurnos.Data.Implementations
 {
@@ -83,6 +85,18 @@ namespace SitemaTurnos.Data.Implementations
             }
 
             return reservaABorrar;
+        }
+
+        public List<Reservation> ReservationsForDate(DateTime date, Disponibility disponibility, string userRole)
+        {
+            if (userRole != "Admin")
+            {
+                List<Reservation> reservations = _dbContext.Reservations.Where(r => r.DateReservation == date && r.ReservStatus == Disponibility.Disponible).ToList();
+                return reservations;
+            }
+
+            List<Reservation> totalReservations = _dbContext.Reservations.Where(r => r.DateReservation == date && r.ReservStatus == disponibility).ToList();
+            return totalReservations;
         }
     }
 }
