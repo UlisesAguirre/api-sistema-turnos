@@ -1,42 +1,64 @@
 ﻿using AutoMapper;
 using RestaurantReservations.Models;
+using SistemaTurnos.Data.Interfaces;
+using SistemaTurnos.Enums;
 using SitemaTurnos.Data.Implementations;
 using SitemaTurnos.Data.Interfaces;
 using SitemaTurnos.Entities;
+using SitemaTurnos.Enums;
 using SitemaTurnos.Services.Interfaces;
 
 namespace SitemaTurnos.Services.Implementations
 {
     public class ReservationService : IReservationService
     {
-        private readonly IReservationRepository _reservationRepository;
         private readonly IMapper _mapper;
-        public ReservationService(IReservationRepository reservationRepository, IMapper mapper) 
+        private readonly IReservationRepository _reservationRepository;
+        private readonly IRestaurantRepository _restaurantRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ITableRepository _tableRepository;
+        public ReservationService(IMapper mapper, IReservationRepository reservationRepository,
+                IRestaurantRepository restaurantRepository, IUserRepository userRepository, ITableRepository tableRepository) 
         {
-            _reservationRepository = reservationRepository;
+
             _mapper = mapper;
+            _reservationRepository = reservationRepository;
+            _restaurantRepository = restaurantRepository;
+            _userRepository = userRepository;
+            _tableRepository = tableRepository;
         }
 
-        public List<ReservationDto> GetAllReservations()
+        public List<Reservation> GetAllReservations()
         {
-            List<Reservation> reservations = _reservationRepository.GetAllReservations();
-            return _mapper.Map<List<ReservationDto>>(reservations);
+            return _reservationRepository.GetAllReservations();
         }
 
-        public ReservationDto GetReservations(int idReservation)
+        public Reservation GetReservations(int idReservation)
         {
-            Reservation reservation = _reservationRepository.GetReservationById(idReservation);
-            return _mapper.Map<ReservationDto>(reservation);
+            return _reservationRepository.GetReservationById(idReservation);
         }
 
-        public void Post(ReservationDto reservation)
+        public ReservationDto Post(ReservationDto reservation) 
         {
-            Reservation newReservation = _mapper.Map<Reservation>(reservation);
-            _reservationRepository.AddReservation(newReservation);
+            Restaurant restaurantData = _restaurantRepository.GetRestaurantData(); //Ver esto
+
+            reservation.User = _userRepository.GetById(reservation.UserId);
+            reservation.Table = _tableRepository.GetById(reservation.TableId);
+
+
+            Reservation Reservation = _mapper.Map<Reservation>(reservation);
+            Reservation newReservation = _reservationRepository.AddReservation(Reservation);
+
+            return _mapper.Map<ReservationDto>(newReservation);
+
         }
 
         public ReservationDto Put(ReservationDto reservation)
         {
+
+            reservation.User = _userRepository.GetById(reservation.UserId);
+            reservation.Table = _tableRepository.GetById(reservation.TableId);
+
             Reservation reserva = _mapper.Map<Reservation>(reservation);
             Reservation reservationModified = _reservationRepository.UpdateReservation(reserva);
 

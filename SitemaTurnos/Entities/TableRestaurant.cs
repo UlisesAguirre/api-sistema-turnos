@@ -11,8 +11,6 @@ namespace SitemaTurnos.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Capacity { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public Disponibility Disponibility { get; set; }
         [JsonIgnore]
         public List<Reservation> Reservations { get; } = new List<Reservation>();
 

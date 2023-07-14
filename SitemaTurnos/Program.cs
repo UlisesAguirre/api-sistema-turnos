@@ -77,6 +77,7 @@ builder.Services.AddScoped<ITableService, TableService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ITableRepository, TableRepository>();
+builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

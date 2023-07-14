@@ -12,14 +12,7 @@ namespace RestaurantReservations.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public string UserType { get; set; }
-        public List<Reservation> Reservations { get; } = new List<Reservation>();
+        public List<ReservationDto> Reservations { get; } = new List<ReservationDto>();
 
     }
 }
-
-/*Usuario {
-    Id
-    nombre de Usuario
-    email
-    contraseña
-}*/

@@ -1,25 +1,18 @@
-﻿namespace RestaurantReservations.Models
+﻿using SitemaTurnos.Entities;
+
+namespace RestaurantReservations.Models
 {
     public class RestaurantDto
     {
-        public int NumberOfTable { get; set; }
         public string Name { get; set; }
+        public int NumberOfTable { get; set; }
         public string Adress { get; set; }
-        public int Phone { get; set; }
-        public DateTime Starthour { get; set; }
-        public DateTime Endhour { get; set; }
-        public DateTime ReservDuration { get; set; }
-        public bool Disponibility { get; set; }
-           
+        public double Phone { get; set; }
+        public int Starthour { get; set; }
+        public int Endhour { get; set; }
+        public int ReservDuration { get; set; }
+        public int availableTables { get; set; }
+        public List<TableRestaurant> tables { get; set; } = new List<TableRestaurant>();
+
     }
 }
-
-/*info del restaurante {
-    numero de Mesas
-    nombre
-    direccion
-    telefono
-    correo electronico
-    horarios
-    disponibilidad
-    }*/

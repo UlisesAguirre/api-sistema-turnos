@@ -1,4 +1,5 @@
-﻿using SitemaTurnos.Entities;
+﻿using SistemaTurnos.Enums;
+using SitemaTurnos.Entities;
 using SitemaTurnos.Enums;
 using System.Text.Json.Serialization;
 
@@ -8,8 +9,9 @@ namespace RestaurantReservations.Models
     {
         public int Id { get; set; }
         public DateTime DateReservation { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public Turns turn { get; set; }
         public int NumOfPeople { get; set; }
-
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility ReservStatus { get; set; }
         public int UserId { get; set; }

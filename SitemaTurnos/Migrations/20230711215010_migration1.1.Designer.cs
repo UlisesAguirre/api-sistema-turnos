@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SitemaTurnos.DBContext;
 
@@ -10,9 +11,11 @@ using SitemaTurnos.DBContext;
 namespace SistemaTurnos.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711215010_migration1.1")]
+    partial class migration11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
@@ -38,9 +41,6 @@ namespace SistemaTurnos.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("turn")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TableId");
@@ -53,42 +53,38 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 1,
-                            DateReservation = new DateTime(2023, 7, 14, 22, 53, 33, 599, DateTimeKind.Local).AddTicks(5425),
+                            DateReservation = new DateTime(2023, 7, 12, 18, 50, 10, 296, DateTimeKind.Local).AddTicks(8460),
                             NumOfPeople = 2,
                             ReservStatus = 1,
                             TableId = 1,
-                            UserId = 1,
-                            turn = 0
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            DateReservation = new DateTime(2023, 7, 15, 22, 53, 33, 599, DateTimeKind.Local).AddTicks(5447),
+                            DateReservation = new DateTime(2023, 7, 13, 18, 50, 10, 296, DateTimeKind.Local).AddTicks(8483),
                             NumOfPeople = 4,
                             ReservStatus = 1,
                             TableId = 2,
-                            UserId = 2,
-                            turn = 1
+                            UserId = 2
                         },
                         new
                         {
                             Id = 3,
-                            DateReservation = new DateTime(2023, 7, 16, 22, 53, 33, 599, DateTimeKind.Local).AddTicks(5450),
+                            DateReservation = new DateTime(2023, 7, 14, 18, 50, 10, 296, DateTimeKind.Local).AddTicks(8486),
                             NumOfPeople = 3,
                             ReservStatus = 1,
                             TableId = 3,
-                            UserId = 3,
-                            turn = 2
+                            UserId = 3
                         },
                         new
                         {
                             Id = 4,
-                            DateReservation = new DateTime(2023, 7, 17, 22, 53, 33, 599, DateTimeKind.Local).AddTicks(5452),
+                            DateReservation = new DateTime(2023, 7, 15, 18, 50, 10, 296, DateTimeKind.Local).AddTicks(8487),
                             NumOfPeople = 6,
                             ReservStatus = 1,
                             TableId = 4,
-                            UserId = 4,
-                            turn = 0
+                            UserId = 4
                         });
                 });
 
@@ -146,6 +142,9 @@ namespace SistemaTurnos.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Disponibility")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("TablesRestaurant");
@@ -154,22 +153,26 @@ namespace SistemaTurnos.Migrations
                         new
                         {
                             Id = 1,
-                            Capacity = 4
+                            Capacity = 4,
+                            Disponibility = 0
                         },
                         new
                         {
                             Id = 2,
-                            Capacity = 3
+                            Capacity = 3,
+                            Disponibility = 2
                         },
                         new
                         {
                             Id = 3,
-                            Capacity = 2
+                            Capacity = 2,
+                            Disponibility = 1
                         },
                         new
                         {
                             Id = 4,
-                            Capacity = 1
+                            Capacity = 1,
+                            Disponibility = 2
                         });
                 });
 
@@ -247,7 +250,7 @@ namespace SistemaTurnos.Migrations
                             LastName = "Lee",
                             Name = "Robert",
                             Password = "1234",
-                            UserType = "Client"
+                            UserType = "Manager"
                         },
                         new
                         {

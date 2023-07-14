@@ -5,9 +5,9 @@ namespace SitemaTurnos.Services.Interfaces
 {
     public interface IReservationService
     {
-        List<ReservationDto> GetAllReservations();
-        ReservationDto GetReservations(int id);
-        void Post(ReservationDto reservation);
+        List<Reservation> GetAllReservations();
+        Reservation GetReservations(int id);
+        ReservationDto Post(ReservationDto reservation);
         ReservationDto Put(ReservationDto reservation);
         ReservationDto Delete(int reservationId);
     }

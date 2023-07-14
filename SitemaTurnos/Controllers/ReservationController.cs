@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservations.Models;
+using SistemaTurnos.Enums;
 using SitemaTurnos.Entities;
+using SitemaTurnos.Enums;
 using SitemaTurnos.Services.Implementations;
 using SitemaTurnos.Services.Interfaces;
 using System.Security.Claims;
@@ -22,7 +24,7 @@ namespace SitemaTurnos.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<ReservationDto>> GetAll() 
+        public ActionResult<List<Reservation>> GetAll() 
         {
             var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
@@ -30,18 +32,18 @@ namespace SitemaTurnos.Controllers
             if (userRole != "Admin")
                 return Forbid();
 
-            List<ReservationDto> reservations = _reservationService.GetAllReservations();
+            List<Reservation> reservations = _reservationService.GetAllReservations();
 
             return Ok(reservations);
         }
 
         [HttpGet("{idReservation}", Name = "GetById")]
-        public ActionResult<ReservationDto> GetById(int idReservation)
+        public ActionResult<Reservation> GetById(int idReservation)
         {
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            ReservationDto reservation = _reservationService.GetReservations(idReservation);
+            Reservation reservation = _reservationService.GetReservations(idReservation);
             if (reservation == null)
             {
                 return NotFound();
@@ -61,13 +63,22 @@ namespace SitemaTurnos.Controllers
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
+            if (!Enum.IsDefined(typeof(Turns), reservation.turn) || !Enum.IsDefined(typeof(Disponibility), reservation.ReservStatus))
+            {
+                return BadRequest();
+            }
+
             if (userRole != "Admin")
             {
                 reservation.UserId = Int32.Parse(user);
             }
-            _reservationService.Post(reservation);
+             ReservationDto newReservation = _reservationService.Post(reservation);
 
-            return Ok();
+            if (newReservation != null)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpPut("Put")]
@@ -76,17 +87,22 @@ namespace SitemaTurnos.Controllers
             var user = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            
+            if (!Enum.IsDefined(typeof(Turns), reservation.turn) || !Enum.IsDefined(typeof(Disponibility), reservation.ReservStatus))
+            {
+                return BadRequest();
+            }
+
             ReservationDto reservationModified = _reservationService.Put(reservation);
 
-            if (reservationModified == null)
-            {
-                return NotFound();
-            }
 
             if (userRole != "Admin" && reservationModified.UserId != Int32.Parse(user))
             {
                 return Forbid();
+            }
+
+            if (reservationModified == null)
+            {
+                return NotFound();
             }
 
             return Ok();

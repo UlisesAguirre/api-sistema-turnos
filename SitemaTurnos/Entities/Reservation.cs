@@ -1,4 +1,5 @@
-﻿using SitemaTurnos.Enums;
+﻿using SistemaTurnos.Enums;
+using SitemaTurnos.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -11,16 +12,16 @@ namespace SitemaTurnos.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime DateReservation { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public Turns turn { get; set; }
         public int NumOfPeople { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Disponibility ReservStatus { get; set; }
         [ForeignKey("TableRestaurant")]
         public int TableId { get; set; }
-        [JsonIgnore]
         public TableRestaurant Table { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
-        [JsonIgnore]
         public User User { get; set; }
 
     }

@@ -41,7 +41,6 @@ namespace SistemaTurnos.Data.Implementations
             if (mesaExistente != null)
             {
                 mesaExistente.Capacity = table.Capacity;
-                mesaExistente.Disponibility = table.Disponibility;
 
                 _dbContext.SaveChanges();
             }

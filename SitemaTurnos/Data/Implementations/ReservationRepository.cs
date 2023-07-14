@@ -28,11 +28,24 @@ namespace SitemaTurnos.Data.Implementations
             return reservaciones;
         }
 
-        public void AddReservation(Reservation reservation)
+        public Reservation AddReservation(Reservation reservation)
         {
-            _dbContext.Reservations.Add(reservation);
+            var user = _dbContext.Users.Find(reservation.UserId);
+            var table = _dbContext.TablesRestaurant.Find(reservation.TableId);
+            var reservationTurn = _dbContext.Reservations.FirstOrDefault(r => r.turn == reservation.turn && r.DateReservation == reservation.DateReservation);
+            
+            if (user  != null && table != null)
+            {
+                if ( reservationTurn == null)
+                {
+                    _dbContext.Reservations.Add(reservation);
 
-            _dbContext.SaveChanges();
+                    _dbContext.SaveChanges();
+
+                    return reservation;
+                }
+            }
+            return null;
         }
 
         public Reservation UpdateReservation(Reservation reservation)

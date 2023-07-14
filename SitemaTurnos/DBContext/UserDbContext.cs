@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using SistemaTurnos.Enums;
 using SitemaTurnos.Entities;
 using SitemaTurnos.Enums;
 
@@ -10,6 +11,7 @@ namespace SitemaTurnos.DBContext
         public DbSet<User> Users { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<TableRestaurant> TablesRestaurant { get; set; }
+        public DbSet<Restaurant> Restaurant { get; set; }
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
         {
         }
@@ -25,6 +27,18 @@ namespace SitemaTurnos.DBContext
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<Restaurant>().HasData(
+                new Restaurant
+                {
+                    NumberOfTable = 15,
+                    Name = "Pizzeria Paradiso",
+                    Adress = "paradiso@gmail.com",
+                    Phone = 3415122334,
+                    Starthour = 18,
+                    Endhour = 0,
+                    ReservDuration = 2
+                });
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -70,7 +84,7 @@ namespace SitemaTurnos.DBContext
                     LastName = "Lee",
                     Email = "robert.lee@example.com",
                     Password = "1234",
-                    UserType = "Manager"
+                    UserType = "Client"
                 },
                 new User
                 {
@@ -98,6 +112,7 @@ namespace SitemaTurnos.DBContext
                    DateReservation = DateTime.Now.AddDays(1),
                    NumOfPeople = 2,
                    ReservStatus = Disponibility.Reservado,
+                   turn = Turns.Turn18,
                    TableId = 1,
                    UserId = 1
                 },
@@ -107,6 +122,7 @@ namespace SitemaTurnos.DBContext
                     DateReservation = DateTime.Now.AddDays(2),
                     NumOfPeople = 4,
                     ReservStatus = Disponibility.Reservado,
+                    turn = Turns.Turn20,
                     TableId = 2,
                     UserId = 2
                 },
@@ -116,6 +132,7 @@ namespace SitemaTurnos.DBContext
                     DateReservation = DateTime.Now.AddDays(3),
                     NumOfPeople = 3,
                     ReservStatus = Disponibility.Reservado,
+                    turn = Turns.Turn22,
                     TableId = 3,
                     UserId = 3
                 },
@@ -125,6 +142,7 @@ namespace SitemaTurnos.DBContext
                     DateReservation = DateTime.Now.AddDays(4),
                     NumOfPeople = 6,
                     ReservStatus = Disponibility.Reservado,
+                    turn = Turns.Turn18,
                     TableId = 4,
                     UserId = 4
                 }
@@ -135,25 +153,21 @@ namespace SitemaTurnos.DBContext
                 { 
                     Id = 1,
                     Capacity = 4,
-                    Disponibility = Disponibility.Disponible
                 },
                 new TableRestaurant 
                 { 
                     Id = 2,
                     Capacity = 3,
-                    Disponibility = Disponibility.Cancelado
                 },
                 new TableRestaurant
                 { 
                     Id = 3,
                     Capacity = 2,
-                    Disponibility = Disponibility.Reservado
                 },
                 new TableRestaurant
                 { 
                     Id = 4,
-                    Capacity = 1,
-                    Disponibility = Disponibility.Cancelado
+                    Capacity = 1
                 }
             );
 
